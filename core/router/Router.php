@@ -1,7 +1,8 @@
 <?php namespace spitfire\core\router;
 
-use spitfire\core\Path;
-use spitfire\core\Response;
+use Closure;
+use spitfire\collection\Collection;
+use spitfire\mvc\middleware\MiddlewareInterface;
 
 /**
  * Routers are tools that allow your application to listen on alternative urls and
@@ -14,6 +15,53 @@ use spitfire\core\Response;
 class Router extends Routable
 {
 	
+	/**
+	 * This is the url prefix the router is connected to. Every time the addRoute
+	 * method is invoked, this router will prefix the route to scope it to the
+	 * router.
+	 * 
+	 * Please note that forcing a router to accept a route that is not inside it's
+	 * scope is likely to cause undefined behavior. Mostly because the router will
+	 * reject every request that doesn't match it's namespace, but may generate
+	 * urls that are outside it's scope.
+	 * 
+	 * @var string
+	 */
+	private $namespace;
+	
+	/**
+	 * The middleware this router applies to it's routes and children. Middleware is 
+	 * applied once the Intent object is created and being returned.
+	 * 
+	 * This means that more specific middleware is applied first when handling a request,
+	 * and later when handling a response.
+	 * 
+	 * @var Collection<MiddlewareInterface>
+	 */
+	private $middleware;
+	
+	/**
+	 * These routers inherit from this. Whenever this router is tasked with handling a 
+	 * request that it cannot satisfy itself, the router will delegate this request to
+	 * it's children.
+	 * 
+	 * This behavior implies that routes defined in the parent take precedence over the
+	 * routes defined by it's children.
+	 * 
+	 * Also note: whenever you call the scope() method, the router generates a NEW Router
+	 * for your scope. This means that you can have routers that manage routes within
+	 * the same scope but have different middleware.
+	 * 
+	 * @var Collection<Router>
+	 */
+	private $children;
+	
+	public function __construct($namespace)
+	{
+		$this->namespace = $namespace;
+		$this->middleware = new Collection();
+		parent::__construct();
+	}
 	
 	/**
 	 * This rewrites a request into a Path (or in given cases, a Response). This 
@@ -66,9 +114,27 @@ class Router extends Routable
 	}
 	
 	/**
+	 * 
+	 * 
+	 * @var string $scope
+	 * @var Closure $do
+	 * @return Router
+	 */
+	public function scope(string $scope, Closure $do = null) : Router
+	{
+		$child = new Router(rtrim($this->namespace, '/') . ltrim($scope, '/'));
+		$do($child);
+		
+		$this->children->push($child);
+		
+		return $child;
+	}
+	
+	/**
 	 * Allows the router to act with a singleton pattern. This allows your app to
 	 * share routes across several points of it.
 	 * 
+	 * @deprecated since v0.2
 	 * @staticvar Router $instance
 	 * @return Router
 	 */
