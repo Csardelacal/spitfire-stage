@@ -78,7 +78,7 @@ class Router extends Routable
 	 * @param string $route
 	 * @param string $method
 	 * @param string $protocol
-	 * @return Path|Response
+	 * @return Candidate|Response
 	 */
 	public function rewrite ($url, $method, $protocol) 
 	{
