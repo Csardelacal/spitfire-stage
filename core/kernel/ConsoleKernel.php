@@ -36,7 +36,7 @@ use function spitfire;
  * 
  * @author César de la Cal Bretschneider <cesar@magic3w.com>
  */
-class ConsoleKernel
+class ConsoleKernel implements KernelInterface
 {
 	
 	/**
@@ -117,5 +117,18 @@ class ConsoleKernel
 	public function all() : Collection
 	{
 		return $this->commands;
+	}
+	
+	/**
+	 * The list of init scripts that need to be executed in order for the kernel to
+	 * be usable.
+	 * 
+	 * @return array
+	 */
+	public function initScripts(): array 
+	{
+		return [
+			spitfire\init\LocadConfiguration::class
+		];
 	}
 }

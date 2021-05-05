@@ -39,7 +39,7 @@ use spitfire\exceptions\ExceptionHandler;
  * 
  * @author César de la Cal Bretschneider <cesar@magic3w.com>
  */
-class WebKernel
+class WebKernel implements KernelInterface
 {
 	
 	private $router;
@@ -116,6 +116,13 @@ class WebKernel
 	public function router() : Router
 	{
 		return $this->router;
+	}
+
+	public function initScripts(): array 
+	{
+		return [
+			spitfire\init\LocadConfiguration::class
+		];
 	}
 	
 }
