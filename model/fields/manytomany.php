@@ -4,6 +4,7 @@ use spitfire\storage\database\Field as PhysicalField;
 use spitfire\model\Schema;
 use spitfire\model\Field;
 use spitfire\Model;
+use spitfire\model\fields\ChildrenField;
 use spitfire\model\adapters\ManyToManyAdapter;
 
 class ManyToManyField extends ChildrenField

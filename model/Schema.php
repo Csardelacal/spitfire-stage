@@ -1,12 +1,19 @@
 <?php namespace spitfire\model;
 
+use EnumField;
+use FloatField;
+use ManyToManyField;
+use spitfire\collection\Collection;
 use spitfire\model\fields\IntegerField;
-use spitfire\core\Collection;
 use spitfire\exceptions\PrivateException;
 use spitfire\model\Field;
+use spitfire\model\fields\ChildrenField;
+use spitfire\model\fields\Reference;
+use spitfire\model\fields\StringField;
 use spitfire\model\Index;
 use spitfire\storage\database\Query;
 use spitfire\storage\database\Table;
+use TextField;
 
 /**
  * A Schema is a class used to define how Spitfire stores data into a DBMS. We
@@ -116,6 +123,126 @@ class Schema
 	public function getField($name) {
 		if (isset($this->fields[$name])) { return $this->fields[$name]; }
 		else                             { return null; }
+	}
+	
+	/**
+	 * Sets a field for this schema. The field contains data that is used to generate
+	 * database schemas, relations, etc.
+	 * 
+	 * @template T of Field 
+	 * @param string $name
+	 * @param T $field
+	 * @return T
+	 */
+	public function setField(string $name, Field $field) : Field
+	{
+		/*
+		 * First we need to check if the field already exists. In the event of us
+		 * overwriting the field we need to remove it from the already existing 
+		 * indexes
+		 */
+		if (isset($this->fields[$name])) {
+			unset($this->$name);
+		}
+		
+		$field->setName($name);
+		$field->setSchema($this);
+		$this->fields[$name] = $field;
+		
+		return $field;
+	}
+	
+	/**
+	 * Sets the field with the provided name to be an int. The database driver should only accept 
+	 * int values for this field when writing to the database.
+	 * 
+	 * @param string $name
+	 * @param boolean $unsigned
+	 * @return IntegerField
+	 */
+	public function integer(string $name, bool $unsigned = false) : IntegerField
+	{
+		return $this->setField($name, new IntegerField($unsigned));
+	}
+	
+	
+	/**
+	 * Causes the field with this name to only accept float values.
+	 * 
+	 * @param string $name
+	 * @param boolean $unsigned
+	 * @return FloatField
+	 */
+	public function float(string $name, bool $unsigned = false) : FloatField
+	{
+		return $this->setField($name, new FloatField($unsigned));
+	}
+	
+	
+	/**
+	 * @param string $name
+	 * @param int $length
+	 * @return StringField
+	 */
+	public function string(string $name, int $length = false) : StringField
+	{
+		assert($length > 0);
+		return $this->setField($name, new StringField($length));
+	}
+	
+	
+	/**
+	 * @param string $name
+	 * @return TextField
+	 */
+	public function text(string $name) : TextField
+	{
+		return $this->setField($name, new TextField());
+	}
+	
+	
+	/**
+	 * @param string $name
+	 * @param string[] $options
+	 * @return EnumField
+	 */
+	public function enum(string $name, array $options) : EnumField
+	{
+		return $this->setField($name, new EnumField($options));
+	}
+	
+	/**
+	 * 
+	 * @param string $name
+	 * @param class-string $to
+	 * @return Reference
+	 */
+	public function reference(string $name, string $to) : Reference
+	{
+		return $this->setField($name, new Reference($to));
+	}
+	
+	/**
+	 * 
+	 * @param string $name
+	 * @param class-string $target
+	 * @param string $role
+	 * @return ChildrenField
+	 */
+	public function children(string $name, $target, $role) : ChildrenField
+	{
+		return $this->setField($name, new ChildrenField($target, $role));
+	}
+	
+	/**
+	 * 
+	 * @param string $name
+	 * @param class-string $target
+	 * @return ManyToManyField
+	 */
+	public function many(string $name, $target) : ManyToManyField
+	{
+		return $this->setField($name, new ManyToManyField($target));
 	}
 	
 	/**
@@ -248,28 +375,9 @@ class Schema
 	 * @param string $name
 	 * @param Field  $value
 	 */
-	public function __set($name, $value) {
-		/*
-		 * First we need to check if the field already exists. In the event of us
-		 * overwriting the field we need to remove it from the already existing 
-		 * indexes
-		 */
-		if (isset($this->fields[$name])) {
-			unset($this->$name);
-		}
-		
-		/*
-		 * Check if the schema received a field. Because if that's not the case we
-		 * can't deal with it properly.
-		 */
-		if (!$value instanceof Field) {
-			throw new PrivateException('Schema received something else than a field', 1710181717);
-		}
-		
-		$value->setName($name);
-		$value->setSchema($this);
-		$this->fields[$name] = $value;
-		
+	public function __set($name, $value) 
+	{
+		$this->setField($name, $value);
 	}
 	
 	/**
