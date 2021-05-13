@@ -2,6 +2,7 @@
 
 use Closure;
 use spitfire\collection\Collection;
+use spitfire\core\Path;
 use spitfire\mvc\middleware\MiddlewareInterface;
 
 /**
@@ -14,20 +15,6 @@ use spitfire\mvc\middleware\MiddlewareInterface;
  */
 class Router extends Routable
 {
-	
-	/**
-	 * This is the url prefix the router is connected to. Every time the addRoute
-	 * method is invoked, this router will prefix the route to scope it to the
-	 * router.
-	 * 
-	 * Please note that forcing a router to accept a route that is not inside it's
-	 * scope is likely to cause undefined behavior. Mostly because the router will
-	 * reject every request that doesn't match it's namespace, but may generate
-	 * urls that are outside it's scope.
-	 * 
-	 * @var string
-	 */
-	private $namespace;
 	
 	/**
 	 * The middleware this router applies to it's routes and children. Middleware is 
@@ -56,11 +43,11 @@ class Router extends Routable
 	 */
 	private $children;
 	
-	public function __construct($namespace)
+	public function __construct($prefix)
 	{
-		$this->namespace = $namespace;
 		$this->middleware = new Collection();
-		parent::__construct();
+		$this->children = new Collection();
+		parent::__construct($prefix);
 	}
 	
 	/**
@@ -108,6 +95,21 @@ class Router extends Routable
 			if ( $rewrite !== false)         { $url = $rewrite; }
 		}
 		
+		/**
+		 * In case the router could not handle the route itself, iterate over the children.
+		 * 
+		 * If any of the children is able to issue a request handler for this, we should
+		 * return it.
+		 * 
+		 * By doing it this way, children routes have lower precedence than the parent, meaning
+		 * that a parent route that matches a request will override a child.
+		 */
+		foreach ($this->children as $child) {
+			$_r = $child->rewrite($url, $method, $protocol);
+			if ($_r) { return $_r; }
+		}
+		
+		
 		#Implicit else.
 		return false;
 		throw new \spitfire\exceptions\PublicException('No such route', 404);
@@ -122,8 +124,8 @@ class Router extends Routable
 	 */
 	public function scope(string $scope, Closure $do = null) : Router
 	{
-		$child = new Router(rtrim($this->namespace, '/') . ltrim($scope, '/'));
-		$do($child);
+		$child = new Router(rtrim($this->getPrefix(), '/') . '/' . ltrim($scope, '/'));
+		$do && $do($child);
 		
 		$this->children->push($child);
 		

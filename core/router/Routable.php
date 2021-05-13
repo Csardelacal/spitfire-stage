@@ -18,9 +18,25 @@ use spitfire\core\Response;
 abstract class Routable
 {
 	
+	/**
+	 * This is the url prefix the router is connected to. Every time the addRoute
+	 * method is invoked, this router will prefix the route to scope it to the
+	 * router.
+	 * 
+	 * Please note that forcing a router to accept a route that is not inside it's
+	 * scope is likely to cause undefined behavior. Mostly because the router will
+	 * reject every request that doesn't match it's namespace, but may generate
+	 * urls that are outside it's scope.
+	 * 
+	 * @var string
+	 */
+	private $prefix;
+	
 	private $routes;
 	
-	public function __construct() {
+	public function __construct(string $prefix) 
+	{
+		$this->prefix = $prefix;
 		$this->routes = new Collection();
 	}
 	
@@ -104,6 +120,11 @@ abstract class Routable
 		return $this->addRoute($pattern, $target, Route::METHOD_POST);
 	}
 	
+	public function getPrefix() 
+	{
+		return $this->prefix;
+	}
+	
 	/**
 	 * This method adds a route to the current object. You can use this to customize
 	 * a certain set of methods for the route to rewrite.
@@ -124,7 +145,7 @@ abstract class Routable
 		 */
 		if ($target instanceof Path || $target instanceof Response || 
 		    $target instanceof Closure || $target instanceof ParametrizedPath) { 
-			return $this->routes->push(new Route(URIPattern::make($pattern), $target, $method, $protocol)); 
+			return $this->routes->push(new Route(URIPattern::make($this->prefix . $pattern), $target, $method, $protocol)); 
 		}
 		
 		/*
@@ -133,7 +154,7 @@ abstract class Routable
 		 */
 		if (is_array($target)) {
 			return $this->routes->push(
-				new Route(URIPattern::make($pattern), 
+				new Route(URIPattern::make($this->prefix . $pattern), 
 				ParametrizedPath::fromArray($target), $method, $protocol));
 		}
 	}
