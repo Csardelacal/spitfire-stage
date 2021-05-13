@@ -86,7 +86,7 @@ use spitfire\core\router\Pattern;
 	  * @return string[]
 	  */
 	 public function getController() {
-		 return $this->controller ? $this->controller : (array) ['home'];
+		 return $this->controller ? $this->controller : (array) Environment::get('default_controller');
 	 }
 	 
 	 /**
@@ -99,7 +99,7 @@ use spitfire\core\router\Pattern;
 	  * @return string
 	  */
 	 public function getAction() {
-		 return $this->action ? $this->action : 'index';
+		 return $this->action ? $this->action : Environment::get('default_action');
 	 }
 	 
 	 /**
