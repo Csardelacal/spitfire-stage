@@ -14,7 +14,8 @@
 		"spitfire/cli": "dev-master",
 		"spitfire/database": "dev-master",
 		"spitfire/collection": "^0.1.0",
-		"spitfire/ast": "dev-master"
+		"spitfire/ast": "dev-master",
+		"psr/http-message": "^1.0"
 	},
 
 	"require-dev": {
