@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d65df5757564fffcc8635eab629b1db0",
+    "content-hash": "1bb2146d119d276c441ff6a566d5f5a6",
     "packages": [
         {
             "name": "composer/installers",
@@ -155,6 +155,58 @@
                 }
             ],
             "time": "2021-04-28T06:42:17+00:00"
+        },
+        {
+            "name": "lawondyss/moment-php",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Lawondyss/MomentPHP.git",
+                "reference": "0350c3c86f9396d07a4c48955c9f63ce3704d001"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Lawondyss/MomentPHP/zipball/0350c3c86f9396d07a4c48955c9f63ce3704d001",
+                "reference": "0350c3c86f9396d07a4c48955c9f63ce3704d001",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 5.3.0"
+            },
+            "require-dev": {
+                "nette/tester": "@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "MomentPHP": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Ladislav Vondráček",
+                    "email": "lawondyss@gmail.com"
+                }
+            ],
+            "description": "MomentPHP is library for parsing, manipulating and formatting dates.",
+            "homepage": "https://github.com/Lawondyss/MomentPHP",
+            "keywords": [
+                "date",
+                "datetime",
+                "formatting",
+                "manipulate",
+                "parse",
+                "time"
+            ],
+            "support": {
+                "issues": "https://github.com/Lawondyss/MomentPHP/issues",
+                "source": "https://github.com/Lawondyss/MomentPHP/tree/develop"
+            },
+            "time": "2014-06-17T18:42:13+00:00"
         },
         {
             "name": "magic3w/url-reflection",
