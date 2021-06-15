@@ -17,7 +17,7 @@
 		"spitfire/ast": "dev-master",
 		"psr/http-server-middleware": "^1.0",
 		"psr/http-factory": "^1.0",
-		"moment/moment": "^2.29"
+		"lawondyss/moment-php": "^1.1"
 	},
 
 	"require-dev": {
