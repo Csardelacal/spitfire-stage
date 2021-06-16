@@ -1,6 +1,7 @@
 <?php namespace spitfire\mvc\providers;
 
 use spitfire\core\app\support\directors\ManifestCacheBuildDirector;
+use CheckStoragePermissionsDirector;
 use spitfire\service\Provider;
 use spitfire\core\kernel\ConsoleKernel;
 
@@ -62,6 +63,7 @@ class DirectorProvider extends Provider
 			$kernel->register('spitfire.config.build', new \spitfire\config\directors\BuildConfigDirector());
 			$kernel->register('spitfire.app.cache.build', new ManifestCacheBuildDirector);
 			$kernel->register('spitfire.defer.process', \spitfire\defer\directors\ProcessDirector::class);
+			$kernel->register('spitfire.storage.check.permissions', CheckStoragePermissionsDirector::class);
 		}
 	}
 }
