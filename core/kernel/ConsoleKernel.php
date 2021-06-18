@@ -1,5 +1,6 @@
 <?php namespace spitfire\core\kernel;
 
+use spitfire\_init\LoadConfiguration;
 use spitfire\cli\arguments\Parser;
 use spitfire\collection\Collection;
 use spitfire\core\kernel\exceptions\CommandNotFoundException;
@@ -128,7 +129,7 @@ class ConsoleKernel implements KernelInterface
 	public function initScripts(): array 
 	{
 		return [
-			spitfire\init\LocadConfiguration::class
+			LoadConfiguration::class
 		];
 	}
 }

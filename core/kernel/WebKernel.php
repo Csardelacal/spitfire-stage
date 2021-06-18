@@ -1,5 +1,6 @@
 <?php namespace spitfire\core\kernel;
 
+use spitfire\_init\LoadConfiguration;
 use spitfire\core\Context;
 use spitfire\core\http\request\handler\StaticResponseRequestHandler;
 use spitfire\core\http\request\handler\DecoratingRequestHandler;
@@ -121,7 +122,7 @@ class WebKernel implements KernelInterface
 	public function initScripts(): array 
 	{
 		return [
-			spitfire\init\LocadConfiguration::class
+			LoadConfiguration::class
 		];
 	}
 	
