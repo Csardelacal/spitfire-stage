@@ -1,6 +1,5 @@
 <?php namespace spitfire;
 
-use Psr\Log\LoggerInterface;
 use spitfire\core\app\Cluster;
 use spitfire\core\Locations;
 use spitfire\core\Request;
@@ -41,15 +40,6 @@ class SpitFire
 	 * @var Publisher
 	 */
 	private $publisher;
-	
-	/**
-	 * Provides logging capabilities for the applications running within Spitfire.
-	 * You can select a logging mechanism by adding a PSR\log compatible logger
-	 * to the dependency injection file.
-	 *
-	 * @var LoggerInterface 
-	 */
-	private $log;
 	
 	/**
 	 * 
