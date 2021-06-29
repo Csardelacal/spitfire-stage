@@ -72,7 +72,7 @@ abstract class RewriteRule
 	 * object to the request.
 	 * 
 	 * @param string $pattern
-	 * @param Closure|ParametrizedPath|array $new_route
+	 * @param Closure|array $new_route
 	 * @param string $method
 	 * @param int    $proto
 	 */
@@ -139,7 +139,7 @@ abstract class RewriteRule
 	
 	/**
 	 * 
-	 * @return ParametrizedPath|URIPattern
+	 * @return URIPattern
 	 */
 	public function getTarget() {
 		return $this->newRoute;

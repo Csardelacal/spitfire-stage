@@ -123,7 +123,7 @@ abstract class Routable
 		 * by directly issuing a response).
 		 */
 		if ($target instanceof Path || $target instanceof Response || 
-		    $target instanceof Closure || $target instanceof ParametrizedPath) { 
+		    $target instanceof Closure) { 
 			return $this->routes->push(new Route(URIPattern::make($pattern), $target, $method, $protocol)); 
 		}
 		
@@ -134,7 +134,7 @@ abstract class Routable
 		if (is_array($target)) {
 			return $this->routes->push(
 				new Route(URIPattern::make($pattern), 
-				ParametrizedPath::fromArray($target), $method, $protocol));
+				$target, $method, $protocol));
 		}
 	}
 	

@@ -132,14 +132,4 @@ class RouterTest extends TestCase
 		$this->assertEquals('php',  $p3->getFormat());
 	}
 	
-	public function testExtraction() {
-		$router  = $this->router;
-		$reverse = \spitfire\core\router\ParametrizedPath::fromArray(['controller' => ':p']);
-		$router->get('/test/:param1', Array('controller' => ':param1'));
-		
-		$rewrite = $router->rewrite('/test/provided', 'GET', Route::PROTO_HTTP);
-		$data = $reverse->extract($rewrite);
-		$this->assertEquals('provided', $data->getParameter('p'));
-	}
-	
 }

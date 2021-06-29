@@ -59,41 +59,5 @@ class Route extends RewriteRule
 			return call_user_func_array($this->getTarget(), Array($params, $extension, $method, $protocol));
 		}
 		
-		/*
-		 * When using a parameterized path, the idea is to replace the parameters
-		 * we extracted from the URL and construct a valid Path that can then be
-		 * used to answer the request.
-		 */
-		if ($this->getTarget() instanceof ParametrizedPath) {
-			return $this->getTarget()->replace($params->setUnparsed($params->getUnparsed()))->setFormat($extension);
-		}
-		
-	}
-	
-	/**
-	 * 
-	 * @return RouteReverserInterface
-	 */
-	public function getReverser() {
-		if ($this->reverser || !$this->getTarget() instanceof ParametrizedPath) { return $this->reverser; }
-
-		return $this->reverser = new ClosureReverser(function (Path $path) {
-			
-			if (!$this->getTarget()->matches($path)) { return false; }
-			
-			try { return $this->getSource()->reverse($this->getTarget()->extract($path)); } 
-			catch (Exception$e) { return false; }
-		});
-
-	}
-	
-	/**
-	 * 
-	 * @param RouteReverserInterface $reverser
-	 * @return Route
-	 */
-	public function setReverser($reverser) {
-		$this->reverser = $reverser;
-		return $this;
 	}
 }
