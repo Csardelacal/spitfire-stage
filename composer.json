@@ -26,7 +26,8 @@
 	},
 
 	"suggest": {
-		"monolog/monolog": "Provides logging capabilities for applications"
+		"monolog/monolog": "Provides logging capabilities for applications",
+		"guzzlehttp/guzzle": "PSR7 compatible HTTP messaging library"
 	},
 
 	"autoload": {
