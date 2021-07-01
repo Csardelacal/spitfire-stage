@@ -93,7 +93,7 @@ class Headers
 	 */
 	public function contentType($str) {
 		
-		$encoding = config('app.http.encoding', 'utf8');
+		$encoding = config('app.http.encoding', 'utf-8');
 		
 		switch ($str) {
 			case 'php':
