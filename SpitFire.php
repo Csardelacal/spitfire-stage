@@ -5,6 +5,7 @@ use spitfire\core\app\Cluster;
 use spitfire\core\Locations;
 use spitfire\core\Request;
 use spitfire\core\resource\Publisher;
+use spitfire\exceptions\ApplicationException;
 use spitfire\exceptions\PrivateException;
 use spitfire\provider\Container;
 use spitfire\provider\Provider;
@@ -136,7 +137,7 @@ class SpitFire
 		 * Poorly configured applications can always fall back to guessing the base url.
 		 * This is by no means a good way of handling this.
 		 */
-		$public = explode('/index.php', $_SERVER['PHP_SELF'], 2)[0];
+		$public = explode('/public/index.php', $_SERVER['PHP_SELF'], 2)[0];
 		return dirname($public);
 	}
 	
