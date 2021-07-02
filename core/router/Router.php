@@ -1,6 +1,7 @@
 <?php namespace spitfire\core\router;
 
 use Closure;
+use Psr\Http\Server\RequestHandlerInterface;
 use spitfire\collection\Collection;
 use spitfire\core\Path;
 use spitfire\mvc\middleware\MiddlewareInterface;
@@ -65,7 +66,7 @@ class Router extends Routable
 	 * @param string $route
 	 * @param string $method
 	 * @param string $protocol
-	 * @return Candidate|Response
+	 * @return RequestHandlerInterface|Response
 	 */
 	public function rewrite ($url, $method, $protocol) 
 	{
