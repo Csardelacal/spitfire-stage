@@ -65,6 +65,12 @@ class ComposerReader
 				->each(function ($app) { $this->read(spitfire()->locations()->root('vendor/' . $app . '/composer.json')); });
 			
 			/**
+			 * Extract a list of providers that this application requires in order to boot.
+			 * We need this data to ensure that the application can be booted accordingly.
+			 */
+			$providers = (new Collection((array)($json->extra->spitfire->providers?? [])));
+			
+			/**
 			 * Extract the events that this application is listening for
 			 * 
 			 * @todo Determine the exact syntax of the events key
@@ -77,6 +83,6 @@ class ComposerReader
 		
 		#TODO: Check the data in extra.spitfire is correctly formatted
 		
-		return new AppManifest($json->name?? '', $apps, $events);
+		return new AppManifest($json->name?? '', $providers, $apps, $events);
 	}
 }

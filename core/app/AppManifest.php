@@ -36,7 +36,6 @@ use spitfire\collection\Collection;
  * please execute the appropriate command.
  * 
  * @todo Add an option to add publishing
- * @todo Add an option to add providers
  * @author César de la Cal Bretschneider <cesar@magic3w.com>
  */
 class AppManifest
@@ -49,6 +48,17 @@ class AppManifest
 	 * @var string
 	 */
 	private $name;
+	
+	/**
+	 * The list of providers this application expects to have loaded into spitfire for it
+	 * to work properly.
+	 * 
+	 * This is important, since applications that extend the functionality of this application
+	 *  may need certain components to perform their task properly.
+	 * 
+	 * @var Collection<class-string>
+	 */
+	private $providers;
 	
 	/**
 	 * An array of applications that this package provides. These may request 
@@ -73,13 +83,15 @@ class AppManifest
 	 * from an app manifest included in composer.json
 	 * 
 	 * @param string $name
+	 * @param Collection<class-string> $providers
 	 * @param Collection<AppManifest> $apps
 	 * @param array $events
 	 */
-	public function __construct(string $name, Collection $apps, array $events) 
+	public function __construct(string $name, Collection $providers, Collection $apps, array $events) 
 	{
 		$this->name = $name;
 		$this->apps = $apps;
+		$this->providers = $providers;
 		$this->events = $events;
 	}
 	
@@ -89,6 +101,16 @@ class AppManifest
 	
 	public function getApps(): mixed {
 		return $this->apps;
+	}
+	
+	/**
+	 * Returns the collection of providers that this application expects.
+	 * 
+	 * @return Collection
+	 */
+	public function getProviders(): Collection
+	{
+		return $this->providers;
 	}
 	
 	public function getEvents(): array {
