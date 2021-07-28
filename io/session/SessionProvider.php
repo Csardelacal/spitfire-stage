@@ -17,7 +17,7 @@ class SessionProvider extends Provider
 		$config = $this->container->get(Configuration::class);
 		$settings = $config->get('spitfire.io.session');
 		
-		switch ($settings['handler']) {
+		switch ($settings['handler']?? null) {
 			/**
 			 * If the file session handler is used, the system will write the 
 			 * sessions to the folder the user indicated for this. Please note that
@@ -31,6 +31,7 @@ class SessionProvider extends Provider
 			 * at all, we will default to using file based sessions
 			 */
 			case '':
+			case null:
 				$this->container->set(Session::class, new Session(new FileSessionHandler(session_save_path())));
 				break;
 			/**
