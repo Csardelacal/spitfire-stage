@@ -1,6 +1,5 @@
 <?php namespace spitfire\core;
 
-use BadMethodCallException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use spitfire\io\stream\StreamSourceInterface;
@@ -154,9 +153,6 @@ class Response implements ResponseInterface
 	 */
 	public function getBody() : StreamInterface
 	{
-		if ($this->body instanceof Context) {
-			return $this->body->view->render();
-		}
 		return $this->body;
 	}
 	
@@ -205,19 +201,6 @@ class Response implements ResponseInterface
 	 */
 	public function setHeaders(Headers $headers) {
 		$this->headers = $headers;
-		return $this;
-	}
-
-	/**
-	 * Defines the body of the response. This can be any string or any object that
-	 * can be converted to string. It can also be a Context object which then 
-	 * will be used to render it's view.
-	 * 
-	 * @param string|Context $body
-	 * @return Response
-	 */
-	public function setBody($body) {
-		$this->body = $body;
 		return $this;
 	}
 	
@@ -314,10 +297,22 @@ class Response implements ResponseInterface
 			echo $body;
 		}
 	}
-
-	public function withBody(\Psr\Http\Message\StreamInterface $body): spitfire\io\request\Response 
+	
+	/**
+	 * Creates a new response with the provided body. Please note that the response is immutable,
+	 * which means that a copy of the object is created when setting a new body.
+	 * 
+	 * However, the body itself is not immutable, which means that often it is possible to modify
+	 * the body while the response is immutable. This can lead to performance improvements when
+	 * working with the body, but also lead to issues with stability. You should avoid creating a
+	 * response prematurely, and wait until the body is complete.
+	 * 
+	 * @param StreamInterface $body
+	 * @return Response
+	 */
+	public function withBody(StreamInterface $body): Response
 	{
-		
+		return new Response($body, $this->getStatusCode(), $this->getHeaders());
 	}
 
 }
