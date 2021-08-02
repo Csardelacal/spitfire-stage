@@ -33,7 +33,7 @@ class PublisherDirector extends \spitfire\mvc\Director
 		return 'spitfire::publish';
 	}
 	
-	public function parameters() 
+	public function parameters() : array
 	{
 		return [
 			'-v' => '--verbose',
@@ -50,7 +50,7 @@ class PublisherDirector extends \spitfire\mvc\Director
 		];
 	}
 	
-	public function exec($parameters, $arguments) 
+	public function exec($parameters, $arguments) : int
 	{
 		$publisher = spitfire()->publisher();
 		$file      = spitfire()->locations()->root('bin/published.json');
