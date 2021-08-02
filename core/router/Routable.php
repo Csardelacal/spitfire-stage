@@ -143,11 +143,13 @@ abstract class Routable
 		 * immediately.
 		 */
 		if (is_array($target)) {
-			$call = function() use ($target) { return Closure::fromCallable([spitfire()->provider()->get($target[0]), $target[1]]); };
+			$call = function($params) use ($target) { 
+				return Closure::fromCallable([spitfire()->provider()->get($target[0]), $target[1]])($params); 
+			};
 		}
 		
 		elseif ($target instanceof Closure) {
-			$call = function() use ($target) { return $target; };
+			$call = $target;
 		}
 		
 		return $this->routes->push(new Route(URIPattern::make($pattern), $call, $method, $protocol)); 

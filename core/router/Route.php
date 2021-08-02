@@ -1,5 +1,6 @@
 <?php namespace spitfire\core\router;
 
+use spitfire\core\http\request\handler\ClosureResponseRequestHandler;
 use spitfire\core\router\reverser\RouteReverserInterface;
 
 /**
@@ -50,6 +51,9 @@ class Route extends RewriteRule
 	
 	/**
 	 * 
+	 * @todo The parameters need to be sorted appropriately so they make sense to the closure
+	 * receiving it in the appropriate order.
+	 * 
 	 * @param string $URI
 	 * @param string $method
 	 * @param string $protocol
@@ -67,7 +71,7 @@ class Route extends RewriteRule
 		 * determine how the application should react depending on any of the
 		 * request's components.
 		 */
-		return $this->getTarget($params);
+		return new ClosureResponseRequestHandler($this->getTarget(), $params->getParameters());
 		
 	}
 	
