@@ -1,7 +1,7 @@
 <?php namespace spitfire\mvc\providers;
 
-use spitfire\service\Provider;
 use spitfire\core\kernel\ConsoleKernel;
+use spitfire\core\service\Provider as ServiceProvider;
 
 /* 
  * The MIT License
@@ -33,7 +33,7 @@ use spitfire\core\kernel\ConsoleKernel;
  * 
  * @author César de la Cal Bretschneider <cesar@magic3w.com>
  */
-class DirectorProvider extends Provider
+class DirectorProvider extends ServiceProvider
 {
 	
 	/**
