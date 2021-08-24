@@ -1,6 +1,7 @@
 <?php namespace spitfire\io\session;
 
 use spitfire\App;
+use spitfire\support\arrays\DotNotationAccessor;
 
 /**
  * The Session class allows your application to write data to a persistent space
@@ -14,119 +15,67 @@ use spitfire\App;
  */
 class Session
 {
+	private $namespace;
 	
 	/**
-	 * The session handler is in charge of storing the data to disk once the system
-	 * is done reading it.
-	 *
-	 * @var SessionHandler
+	 * 
+	 * @var DotNotationAccessor
 	 */
-	private $handler;
+	private $accessor;
+	
+	public function __construct($namespace = '_')
+	{
+		$this->namespace = $namespace;
+	}
 	
 	/**
-	 * The Session allows the application to maintain a persistence across HTTP
-	 * requests by providing the user with a cookie and maintaining the data on 
-	 * the server. Therefore, you can consider all the data you read from the 
-	 * session to be safe because it stems from the server.
 	 * 
-	 * You need to question the fact that the data actually belongs to the same
-	 * user, since this may not be guaranteed all the time.
-	 * 
-	 * @param SessionHandler $handler
+	 * @param string $key
+	 * @param mixed $value
+	 * @return void
 	 */
-	protected function __construct(SessionHandler$handler = null) {
-		$lifetime = 2592000;
-		
-		if (!$handler) { $handler = new FileSessionHandler(realpath(session_save_path()), $lifetime); }
-		
-		$this->handler = $handler;
+	public function set(string $key, $value) : void 
+	{
+		$this->start();
+		$this->accessor->set($this->namespace . '.' . $key, $value);
 	}
 	
-	public function getHandler() {
-		return $this->handler;
-	}
-	
-	public function setHandler($handler) {
-		$this->handler = $handler;
-		$this->handler->attach();
-		return $this;
-	}
-		
-	public function set($key, $value, $app = null) {
-		if ($app === null) {$app = current_context()->app;}
-		/* @var $app App */
-		$namespace = ($app->getMapping()->getNameSpace())? $app->getMapping()->getNameSpace() : '*';
-
-		if (!self::sessionId()) { $this->start(); }
-		$_SESSION[$namespace][$key] = $value;
-
-	}
-
-	public function get($key, $app = null) {
-		if ($app === null) {$app = current_context()->app;}
-		/* @var $app App */
-		$namespace = $app && $app->getMapping()->getNameSpace()? $app->getMapping()->getNameSpace() : '*';
-
-		if (!isset($_COOKIE[session_name()])) { return null; }
-		if (!self::sessionId()) { $this->start(); }
-		return isset($_SESSION[$namespace][$key])? $_SESSION[$namespace][$key] : null;
-
-	}
-
-	public function lock($userdata, App$app = null) {
-
-		$user = Array();
-		$user['ip']       = $_SERVER['REMOTE_ADDR'];
-		$user['userdata'] = $userdata;
-		$user['secure']   = true;
-
-		$this->set('_SF_Auth', $user, $app);
-
-	}
-
-	public function isSafe(App$app = null) {
-
-		$user = $this->get('_SF_Auth', $app);
-		if ($user) {
-			$user['secure'] = $user['secure'] && ($user['ip'] == $_SERVER['REMOTE_ADDR']);
-
-			$this->set('_SF_Auth', $user, $app);
-			return $user['secure'];
+	/**
+	 * 
+	 * @param string $key
+	 * @param mixed $default
+	 * @return mixed
+	 */
+	public function get(string $key, $default = null) 
+	{
+		/**
+		 * Check if the user is bringing a session along at all, if they're not, there's no point
+		 * in trying to read it.
+		 */
+		if (!isset($_COOKIE[session_name()])) { 
+			return $default; 
 		}
-		else return false;
+		
+		/**
+		 * Otherwise, we consider the session started and go right into it
+		 */
+		$this->start();
+		
+		return $this->accessor->has($this->namespace . '.' . $key)? 
+			$this->accessor->get($this->namespace . '.' . $key) : 
+			$default;
 
 	}
-
-	public function getUser(App$app = null) {
-
-		$user = $this->get('_SF_Auth', $app);
-		return $user? $user['userdata'] : null;
-
-	}
-
-	public function start() {
+	
+	/**
+	 * Initialzes the session if it wasn't yet running.
+	 */
+	public function start() : void
+	{
 		if (self::sessionId()) { return; }
-		$this->handler->attach();
 		session_start();
 		
-		/*
-		 * This is a fallback mechanism that allows dynamic extension of sessions,
-		 * otherwise a twenty minute session would end after 20 minutes even 
-		 * if the user was actively using it.
-		 * 
-		 * Sessions are httponly, this means that they are not available to the client
-		 * application running within the user-agent. This should mititgate potential
-		 * XSS attacks that would use JS to extract the cookie to impersonate the user.
-		 * 
-		 * Read on: http://php.net/manual/en/function.session-set-cookie-params.php
-		 */
-		$lifetime = 2592000;
-		
-		setcookie(
-			session_name(), 
-			self::sessionId(), 
-			['expires' => time() + $lifetime, 'path' => '/', 'samesite' => 'lax', 'secure' => true, 'httponly' => true]
-		);
+		$this->accessor = new DotNotationAccessor($_SESSION);
 	}
 	
 	/**
@@ -144,20 +93,6 @@ class Session
 		);
 		
 		return session_destroy();
-	}
-
-	/**
-	 * This class requires to be managed in "singleton" mode, since there can only
-	 * be one session handler for the system.
-	 *
-	 * @staticvar Session $instance
-	 * @return Session
-	 */
-	public static function getInstance() {
-		static $instance = null;
-
-		if ($instance !== null) { return $instance; }
-		return $instance = spitfire()->provider()->get(self::class);
 	}
 	
 	/**

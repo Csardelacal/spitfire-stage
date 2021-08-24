@@ -14,35 +14,20 @@ class SessionProvider extends Provider
 	
 	public function register()
 	{
-		$config = $this->container->get(Configuration::class);
-		$settings = $config->get('spitfire.io.session');
+		/**
+		 * For the time being, a dead simple, but effective approach to session management
+		 * is to just configure the cookie the way we want and then start the session accordingly
+		 * whenever the session is requested for a route using the middleware
+		 */
+		$lifetime = config('session.lifetime', 86300);
+		session_set_cookie_params(['expires' => time() + $lifetime, 'path' => '/', 'samesite' => 'lax', 'secure' => true, 'httponly' => true]);
 		
-		switch ($settings['handler']?? null) {
-			/**
-			 * If the file session handler is used, the system will write the 
-			 * sessions to the folder the user indicated for this. Please note that
-			 * if this folder is not writable, the system will fail.
-			 */
-			case 'file':
-				$this->container->set(Session::class, new Session(new FileSessionHandler($settings['directory']?? session_save_path())));
-				break;
-			/**
-			 * Assuming the developer selected no session handling mechanism
-			 * at all, we will default to using file based sessions
-			 */
-			case '':
-			case null:
-				$this->container->set(Session::class, new Session(new FileSessionHandler(session_save_path())));
-				break;
-			/**
-			 * The user provided a configuration that we cannot associate with any
-			 * session handler that ships with spitfire, making it impossible to find this 
-			 * session.
-			 */
-			default:
-				throw new ApplicationException('No valid session handler was found', 2105271304);
-				break;
-		}
+		/**
+		 * Register a session that is ready to initialize the user's session whenever the
+		 * user is ready to do so. PLease note that spitfire is lazy with handling sessions,
+		 * this means that if you don't use it, the system will not lock the filesystem.
+		 */
+		$this->container->set(Session::class, new Session());
 	}
 	
 }
