@@ -15,15 +15,33 @@ use spitfire\support\arrays\DotNotationAccessor;
  */
 class Session
 {
+	
+	/**
+	 * All the sessions within Spitfire applications are implicitly namespaced, this
+	 * allows several modules to share a single session safely without writing into
+	 * each other's data.
+	 * 
+	 * You're recommended to instance a new namespaced session for your application
+	 * if you're not using Spitfire's automated session scoping that will do it for you.
+	 * 
+	 * @var string
+	 */
 	private $namespace;
 	
 	/**
+	 * The accessor allows applications to access their keys like "hello.world" instead
+	 * of having to perform recursive or nested calls for accessing structured data 
+	 * within the session.
 	 * 
-	 * @var DotNotationAccessor
+	 * @var DotNotationAccessor|null
 	 */
 	private $accessor;
 	
-	public function __construct($namespace = '_')
+	/**
+	 * 
+	 * @param string $namespace
+	 */
+	public function __construct(string $namespace = '_')
 	{
 		$this->namespace = $namespace;
 	}
@@ -37,7 +55,7 @@ class Session
 	public function set(string $key, $value) : void 
 	{
 		$this->start();
-		$this->accessor->set($this->namespace . '.' . $key, $value);
+		$this->accessor->set($key, $value);
 	}
 	
 	/**
@@ -61,8 +79,8 @@ class Session
 		 */
 		$this->start();
 		
-		return $this->accessor->has($this->namespace . '.' . $key)? 
-			$this->accessor->get($this->namespace . '.' . $key) : 
+		return $this->accessor->has($key)? 
+			$this->accessor->get($key) : 
 			$default;
 
 	}
@@ -72,10 +90,10 @@ class Session
 	 */
 	public function start() : void
 	{
-		if (self::sessionId()) { return; }
-		session_start();
+		if (session_status() === PHP_SESSION_ACTIVE) { return; }
 		
-		$this->accessor = new DotNotationAccessor($_SESSION);
+		session_start();
+		$this->accessor = new DotNotationAccessor($_SESSION[$this->namespace]);
 	}
 	
 	/**
@@ -84,13 +102,29 @@ class Session
 	 */
 	public function destroy() : bool 
 	{
-		$this->start();
+		if (session_status() !== PHP_SESSION_ACTIVE) { return true; }
 		
-		setcookie(
-			session_name(), 
-			'', 
-			['expires' => time() -1, 'path' => '/', 'samesite' => 'lax', 'secure' => true, 'httponly' => true]
-		);
+		/**
+		 * Checks if the session is configured to be using cookies, technically the server
+		 * could be using query parameters for handling sessions. That's not recommended
+		 * though since it causses links to leak sessions.
+		 */
+		if (ini_get("session.use_cookies")) {
+			$params = session_get_cookie_params();
+			
+			/**
+			 * Unset the lifetime, since this is not actually valid for the setcookie function.
+			 * Instead, replace it with the expires key, which allows the application to 
+			 * terminate the session by sending a cookie that expired in the past.
+			 */
+			unset($params['lifetime']);
+			$params['expires'] = time() - 1;
+			
+			/**
+			 * Send the cookie to the client so the session is properly terminated.
+			 */
+			setcookie(session_name(), '', $params);
+		}
 		
 		return session_destroy();
 	}
