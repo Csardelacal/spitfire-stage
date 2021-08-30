@@ -72,13 +72,11 @@ function app($name, $namespace) {
  */
 function boot(string $kernel) : KernelInterface
 {
-	$reflection = new ReflectionClass($kernel);
-	
 	/**
 	 * Ensure that the kernel is a kernel. If it's not a kernel, the application can't
 	 * use it and it will most definitely malfunction.
 	 */
-	assert($reflection->isSubclassOf(KernelInterface::class), 'Cannot boot non-kernel class');
+	assert((new ReflectionClass($kernel))->isSubclassOf(KernelInterface::class), 'Cannot boot non-kernel class');
 	
 	/**
 	 * Instance the new kernel. Kernels must be able to be instanced with minimum
