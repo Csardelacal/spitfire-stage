@@ -141,6 +141,8 @@ abstract class Routable
 		 * matched the method. I am not a fan of this way of handling the code,
 		 * since we've wrapped a closure in a closure so it doesn't get executed
 		 * immediately.
+		 * 
+		 * @todo Replace with requesthandlerinterfaces
 		 */
 		if (is_array($target)) {
 			$call = function() use ($target) { return Closure::fromCallable([spitfire()->provider()->get($target[0]), $target[1]]); };

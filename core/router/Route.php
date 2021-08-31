@@ -1,5 +1,6 @@
 <?php namespace spitfire\core\router;
 
+use Psr\Http\Server\RequestHandlerInterface;
 use spitfire\core\router\reverser\RouteReverserInterface;
 
 /**
@@ -54,9 +55,9 @@ class Route extends RewriteRule
 	 * @param string $method
 	 * @param string $protocol
 	 * @param string $extension
-	 * @return \spitfire\core\Path|\spitfire\core\Response
+	 * @return RequestHandlerInterface|null
 	 */
-	public function rewrite($URI, $method, $protocol, string $extension = 'php') 
+	public function rewrite($URI, $method, $protocol, string $extension = 'php') :? RequestHandlerInterface
 	{
 		$params = $this->getSource()->test($URI);
 		
