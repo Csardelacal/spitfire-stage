@@ -1,5 +1,6 @@
-<?php namespace spitfire\utils;
+<?php namespace spitfire\utils\database;
 
+use spitfire\cli\arguments\CLIArguments;
 use spitfire\mvc\Director;
 
 /* 
@@ -44,8 +45,18 @@ use spitfire\mvc\Director;
  * 
  * @author César de la Cal Bretschneider <cesar@magic3w.com>
  */
-class DatabaseDirector extends Director
+class DatabaseImportDirector extends Director
 {
+	
+	/**
+	 * This currently accepts no parameters at all
+	 */
+	public function parameters(): array
+	{
+		return [
+			
+		];
+	}
 	
 	/**
 	 * Initializes the schemas on the DBMS side. This removes the need for spitfire's
@@ -60,111 +71,10 @@ class DatabaseDirector extends Director
 	 *		templates that removes the need for this glob madness and allows it to cache
 	 *		known locations
 	 */
-	public function init() {
+	public function exec(array $parameters, CLIArguments $arguments): int
+	{
 		
-		$db = db();
-		$dir = basedir() . '/bin/models/';
-		
-		/*
-		 * This function walks the directory for the models and loads the appropriate
-		 * models. These models can then be used to assemble the DBMS schema.
-		 */
-		$walk = function ($dir, $namespace) use (&$walk, $db) {
-			/*
-			 * We're only interested in PHP files, since these contain the models.
-			 * The system does not just import all the models and use reflection to
-			 * locate them, instead, it does some magic with the filenames.
-			 * 
-			 * There's a certain level of risk we assume whenever blindly looping 
-			 * over a set of files in PHP and including them. But other than manually
-			 * parsing them - there's not much we can do to look for class declarations
-			 * in them. The models folder should be for models only.
-			 */
-			$scripts = glob($dir . '*.php');
-			
-			foreach ($scripts as $file) {
-				console()->info($file)->ln();
-				$table = $db->table($namespace . '\\' . explode('.', basename($file))[0]);
-				console()->success($table)->ln();
-			}
-			
-			/*
-			 * We iterate into folders to locate deeper seated models.
-			 */
-			$folders = glob($dir . '*', GLOB_ONLYDIR);
-			
-			foreach ($folders as $folder) {
-				$walk($dir . basename($folder) . '/', $namespace . '\\' . basename($folder));
-			}
-		};
-		
-		$walk($dir, '');
-	}
-	
-	/**
-	 * The export method creates a set of files in a directory it receives as parameter
-	 * and writes the records in a json format to the individual files.
-	 * 
-	 * @param string $targetdir
-	 */
-	public function export($targetdir) {
-		
-		$db = db();
-		$dir = basedir() . '/bin/models/';
-		
-		$walk = function ($dir, $namespace) use (&$walk, $db) {
-			/*
-			 * 
-			 */
-			$scripts = glob($dir . '*.php');
-			$_ret    = [];
-			
-			foreach ($scripts as $file) {
-				console()->info($file)->ln();
-				$table = $db->table($namespace . '\\' . explode('.', basename($file))[0]);
-				console()->success($table->getLayout()->getTableName())->ln();
-				$_ret[] = $table;
-			}
-			
-			$folders = glob($dir . '*', GLOB_ONLYDIR);
-			
-			foreach ($folders as $folder) {
-				$_ret = array_merge($_ret, $walk($dir . basename($folder) . '/', $namespace . '\\' . basename($folder)));
-			}
-			
-			return $_ret;
-		};
-		
-		$tables = $walk($dir, '');
-		
-		foreach ($tables as $table) {
-			$records = $table->getAll()->all();
-			$output  = fopen($targetdir . '/' . trim($table->getSchema()->getName(), '\/') . '.backup', 'w+');
-			
-			foreach ($records as /*@var $record \spitfire\Model*/$record) {
-				$data = $record->getData();
-				$raw = [];
-				
-				foreach ($data as $name => $field) {
-					$_data = $field->dbGetData();
-					$raw[$name] = $_data;
-				}
-				
-				fwrite($output, json_encode($raw));
-				fwrite($output, PHP_EOL);
-			}
-		}
-	}
-	
-	/**
-	 * Reads the data from the exported JSON files to the database. Unlike the export
-	 * method, this needs to check whether the table another depends on has already
-	 * been imported.
-	 * 
-	 * @param string $srcdir
-	 */
-	public function import($srcdir) {
-		
+		$srcdir = $parameters[0];
 		$db = db();
 		$imported = collect([]);
 		
@@ -255,6 +165,8 @@ class DatabaseDirector extends Director
 		};
 		
 		$walk($srcdir);
+		return 0;
 	}
+	
 	
 }
