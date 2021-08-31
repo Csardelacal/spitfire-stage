@@ -81,11 +81,8 @@ class Route extends RewriteRule
 	 * @param string $protocol
 	 * @param string $extension
 	 * @return RequestHandlerInterface|null
-	 * 
-	 * @todo Wrap the returned closure in a requesthandler that can actually make use of
-	 * this.
 	 */
-	public function rewrite($URI, $method, $protocol, string $extension = 'php') : RequestHandlerInterface
+	public function rewrite($URI, $method, $protocol, string $extension = 'php') :? RequestHandlerInterface
 	{
 		
 		$params = $this->getSource()->test($URI);

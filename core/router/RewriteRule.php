@@ -1,6 +1,7 @@
 <?php namespace spitfire\core\router;
 
 use Closure;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /* 
  * The MIT License
@@ -66,7 +67,7 @@ abstract class RewriteRule
 	
 	/**
 	 * 
-	 * @var Closure
+	 * @var RequestHandlerInterface
 	 */
 	private $newRoute;
 	private $method;
@@ -77,12 +78,12 @@ abstract class RewriteRule
 	 * directly send back a response or assign a custom controller, action and 
 	 * object to the request.
 	 * 
-	 * @param string $pattern
-	 * @param Closure $new_route
-	 * @param int $method
-	 * @param int $proto
+	 * @param URIPattern $pattern
+	 * @param RequestHandlerInterface $new_route
+	 * @param string $method
+	 * @param int    $proto
 	 */
-	public function __construct(URIPattern $pattern, Closure $new_route, $method, $proto = Route::PROTO_ANY) 
+	public function __construct(URIPattern $pattern, RequestHandlerInterface $new_route, $method, $proto = Route::PROTO_ANY) 
 	{
 		$this->pattern   = $pattern;
 		$this->newRoute  = $new_route;
@@ -146,9 +147,9 @@ abstract class RewriteRule
 	
 	/**
 	 * 
-	 * @return Closure
+	 * @return RequestHandlerInterface
 	 */
-	public function getTarget() : Closure
+	public function getTarget() : RequestHandlerInterface
 	{
 		return $this->newRoute;
 	}
