@@ -201,8 +201,8 @@ class URIPattern
 	 * Takes a parameter list and constructs a string URI from the combination
 	 * of patterns and parameters.
 	 * 
-	 * @param type $parameters
-	 * @return type
+	 * @param string[] $parameters
+	 * @return string
 	 * @throws PrivateException
 	 * @throws RouteMismatchException
 	 */
