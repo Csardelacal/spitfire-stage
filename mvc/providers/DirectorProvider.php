@@ -1,6 +1,6 @@
 <?php namespace spitfire\mvc\providers;
 
-use CheckStoragePermissionsDirector;
+use spitfire\storage\support\directors\CheckStoragePermissionsDirector;
 use spitfire\service\Provider;
 use spitfire\core\kernel\ConsoleKernel;
 
