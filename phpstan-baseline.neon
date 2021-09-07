@@ -381,7 +381,7 @@ parameters:
 			path: core/kernel/WebKernel.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$params$#"
 			count: 1
 			path: core/kernel/WebKernel.php
 
@@ -413,7 +413,7 @@ parameters:
 		-
 			message: "#^Variable \\$call might not be defined\\.$#"
 			count: 1
-			path: core/router/Routable.php
+			path: core/router/Route.php
 
 		-
 			message: "#^Method spitfire\\\\core\\\\router\\\\RewriteRule\\:\\:getTarget\\(\\) invoked with 1 parameter, 0 required\\.$#"
@@ -1606,27 +1606,12 @@ parameters:
 			path: mvc/middleware/standard/ModelMiddleware.php
 
 		-
-			message: "#^Access to property \\$object on an unknown class spitfire\\\\core\\\\ContextInterface\\.$#"
-			count: 3
-			path: mvc/middleware/standard/ModelMiddleware.php
-
-		-
-			message: "#^Class spitfire\\\\core\\\\Context not found\\.$#"
-			count: 2
-			path: mvc/middleware/standard/ModelMiddleware.php
-
-		-
 			message: "#^PHPDoc tag @param for parameter \\$context with type spitfire\\\\core\\\\Context is not subtype of native type spitfire\\\\core\\\\ContextInterface\\.$#"
 			count: 1
 			path: mvc/middleware/standard/ModelMiddleware.php
 
 		-
 			message: "#^Parameter \\$context of method spitfire\\\\mvc\\\\middleware\\\\standard\\\\ModelMiddleware\\:\\:after\\(\\) has invalid typehint type spitfire\\\\core\\\\ContextInterface\\.$#"
-			count: 1
-			path: mvc/middleware/standard/ModelMiddleware.php
-
-		-
-			message: "#^Parameter \\$context of method spitfire\\\\mvc\\\\middleware\\\\standard\\\\ModelMiddleware\\:\\:before\\(\\) has invalid typehint type spitfire\\\\core\\\\Context\\.$#"
 			count: 1
 			path: mvc/middleware/standard/ModelMiddleware.php
 
@@ -1879,6 +1864,11 @@ parameters:
 			message: "#^Parameter \\$key of method spitfire\\\\storage\\\\objectStorage\\\\DriverInterface\\:\\:delete\\(\\) has invalid typehint type spitfire\\\\storage\\\\objectStorage\\\\type\\.$#"
 			count: 1
 			path: storage/objectStorage/DriverInterface.php
+
+		-
+			message: "#^Parameter \\$arguments of method spitfire\\\\storage\\\\support\\\\directors\\\\CheckStoragePermissionsDirector\\:\\:exec\\(\\) has invalid typehint type spitfire\\\\cli\\\\arguments\\\\CLIArguments\\.$#"
+			count: 2
+			path: storage/support/directors/CheckStoragePermissionsDirector.php
 
 		-
 			message: "#^Method spitfire\\\\utils\\\\Strings\\:\\:escape\\(\\) should return spitfire\\\\utils\\\\type but returns string\\.$#"
