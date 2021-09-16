@@ -1,7 +1,5 @@
 <?php namespace spitfire\core\router;
 
-use spitfire\core\router\reverser\RouteReverserInterface;
-
 /**
  * A route is a class that rewrites a URL path (route) that matches a
  * route or pattern (old_route) into a new route that the system can 

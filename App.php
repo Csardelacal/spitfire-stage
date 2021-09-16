@@ -3,7 +3,6 @@
 use spitfire\core\Environment;
 use spitfire\core\Path;
 use spitfire\core\router\Parameters;
-use spitfire\core\router\reverser\ClosureReverser;
 use spitfire\core\router\Router;
 
 /**
