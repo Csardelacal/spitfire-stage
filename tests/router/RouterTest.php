@@ -53,7 +53,7 @@ class RouterTest extends TestCase
 	}
 	
 	public function testTrailingSlashStringRoute() {
-		$router = new Router();
+		$router = new Router('');
 		
 		#Create a route with a trailing slash
 		$route1 = $router->get('/this/is/a/test/', [TestController::class, 'index']);
@@ -68,7 +68,7 @@ class RouterTest extends TestCase
 	}
 	
 	public function testTrailingSlashStringRoute2() {
-		$router = new Router();
+		$router = new Router('');
 		
 		#Create a route without a trailing slash
 		$route2 = $router->get('/this/is/a/test', ['controller' => 'test']);
@@ -120,6 +120,15 @@ class RouterTest extends TestCase
 		
 		$rewrite = $route->params('/@provided', 'GET', Route::PROTO_HTTP);
 		$this->assertEquals('provided', $rewrite->getParameter('param1'));
+	}
+	
+	public function testURLReversal() 
+	{
+		$router  = $this->router;
+		$route   = $router->get('/@{param1}', Array('controller' => 'UserController', 'object' => [':param1']));
+		$url     = $route->getSource()->reverse(['param1' => 'hello_world']);
+		
+		$this->assertEquals('/@hello_world', $url);
 	}
 	
 }
