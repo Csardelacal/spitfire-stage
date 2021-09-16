@@ -99,4 +99,13 @@ class RouterTest extends TestCase
 		$this->assertEquals('provided', $rewrite->getParameter('param1'));
 	}
 	
+	public function testURLReversal() 
+	{
+		$router  = $this->router;
+		$route   = $router->get('/@{param1}', Array('controller' => 'UserController', 'object' => [':param1']));
+		$url     = $route->getSource()->reverse(['param1' => 'hello_world']);
+		
+		$this->assertEquals('/@hello_world', $url);
+	}
+	
 }
