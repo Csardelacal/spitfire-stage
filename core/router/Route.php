@@ -2,8 +2,6 @@
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use spitfire\core\http\request\handler\ClosureResponseRequestHandler;
-use spitfire\core\router\reverser\RouteReverserInterface;
 
 /**
  * A route is a class that rewrites a URL path (route) that matches a
