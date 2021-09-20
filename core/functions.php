@@ -10,6 +10,7 @@ use spitfire\core\http\URL;
 use spitfire\core\config\Configuration;
 use spitfire\core\kernel\KernelInterface;
 use spitfire\cli\Console;
+use spitfire\core\Environment;
 use spitfire\core\exceptions\FailureException;
 use spitfire\exceptions\ApplicationException;
 use spitfire\io\request\Request;
@@ -625,7 +626,7 @@ function defer(string $task, $options, int $defer = 0, int $ttl = 10) : void
 	static $async = null;
 	
 	if (!$async) {
-		$async = spitfire()->provider()->get(spitfire\defer\TaskFactory::class);
+		$async = spitfire()->provider()->get(\spitfire\defer\TaskFactory::class);
 	}
 	
 	$async->defer($task, $options, $defer, $ttl);
@@ -660,20 +661,27 @@ function config($key, $fallback = null)
  */
 function env(string $param) :? string
 {
+	$provider = spitfire()->provider();
+	
 	/**
-	 * @var Environment
+	 * If no parameter was given, the application would be unable to work with it.
 	 */
-	$env = spitfire()->provider()->get(Environment::class);
+	assert($param !== '');
 	
 	/**
 	 * If the user is performing an empty lookup, or the environment has not yet been
 	 * set, the application should fail.
 	 */
-	if ($param === null || $env === null) {
+	if (!$provider->has(Environment::class)) {
 		throw new ApplicationException('Environment was read before it was loaded');
 	}
 	
-	return $env->get($param);
+	/**
+	 * @var Environment
+	 */
+	$env = $provider->get(Environment::class);
+	
+	return $env->read($param);
 }
 
 /**
