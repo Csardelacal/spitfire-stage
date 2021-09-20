@@ -16,13 +16,13 @@
 		"spitfire/collection": "^0.1.0",
 		"spitfire/ast": "dev-master",
 		"psr/http-server-middleware": "^1.0",
-		"psr/http-factory": "^1.0",
-		"phpunit/phpunit": "^9.5"
+		"psr/http-factory": "^1.0"
 	},
 
 	"require-dev": {
 		"monolog/monolog": "^2.2",
-		"phpstan/phpstan": "^0.12.84"
+		"phpstan/phpstan": "^0.12.84",
+		"phpunit/phpunit": "^9.5"
 	},
 
 	"suggest": {
