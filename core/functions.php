@@ -77,6 +77,7 @@ function app($name, $namespace) {
 function boot(string $kernel) : KernelInterface
 {
 	$reflection = new ReflectionClass($kernel);
+	$provider   = spitfire()->provider();
 	
 	/**
 	 * Ensure that the kernel is a kernel. If it's not a kernel, the application can't
@@ -92,7 +93,7 @@ function boot(string $kernel) : KernelInterface
 	 * We use the service provider for this, allowing the developer to potentially
 	 * override the kernel with custom logic.
 	 */
-	$instance = spitfire()->provider()->get($kernel);
+	$instance = $provider->get($kernel);
 	
 	/**
 	 * Loop over the kernel's init script and execute them, making the kernel function.
@@ -100,6 +101,12 @@ function boot(string $kernel) : KernelInterface
 	foreach ($instance->initScripts() as $script) {
 		(new $script($instance))->exec();
 	}
+	
+	/**
+	 * Set the kernel as the currently running kernel in the service container so the app
+	 * can find the kernel if needed
+	 */
+	$provider->set(KernelInterface::class, $kernel);
 	
 	/**
 	 * Return the kernel, so the application can work as expected.
