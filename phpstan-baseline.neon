@@ -486,21 +486,6 @@ parameters:
 			path: core/router/Route.php
 
 		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: core/router/Router.php
-
-		-
-			message: "#^Method spitfire\\\\core\\\\router\\\\Router\\:\\:rewrite\\(\\) should return spitfire\\\\core\\\\router\\\\RouterResult but returns Closure\\.$#"
-			count: 1
-			path: core/router/Router.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$route$#"
-			count: 1
-			path: core/router/Router.php
-
-		-
 			message: "#^Call to an undefined method spitfire\\\\core\\\\router\\\\RouterResult\\:\\:requestHandler\\(\\)\\.$#"
 			count: 1
 			path: core/router/RoutingMiddleware.php
