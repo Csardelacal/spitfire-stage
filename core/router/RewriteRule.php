@@ -1,6 +1,7 @@
 <?php namespace spitfire\core\router;
 
 use Closure;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 /* 
@@ -162,8 +163,5 @@ abstract class RewriteRule
 		return $this->pattern;
 	}
 	
-	/**
-	 * 
-	 */
-	abstract public function rewrite($URI, $method, $protocol, string $extension = 'php');
+	abstract public function rewrite(ServerRequestInterface $request) :? Parameters;
 }
