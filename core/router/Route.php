@@ -1,5 +1,6 @@
 <?php namespace spitfire\core\router;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use spitfire\core\router\reverser\RouteReverserInterface;
 
@@ -36,40 +37,15 @@ class Route extends RewriteRule
 	
 	private $reverser = null;
 	
-	/**
-	 * 
-	 * @param string $URI
-	 * @param string $method
-	 * @param string $protocol
-	 * @param string $extension
-	 * @return Parameters
-	 */
-	public function params($URI, $method, $protocol, string $extension = 'php') 
-	{
-		return $this->getSource()->test($URI);
-	}
 	
 	/**
 	 * 
-	 * @param string $URI
-	 * @param string $method
-	 * @param string $protocol
-	 * @param string $extension
+	 * @param ServerRequestInterface $request
 	 * @return RequestHandlerInterface|null
 	 */
-	public function rewrite($URI, $method, $protocol, string $extension = 'php') :? RequestHandlerInterface
+	public function rewrite(ServerRequestInterface $request) :? Parameters
 	{
-		$params = $this->getSource()->test($URI);
-		
-		if ($params === null) { return null; }
-		
-		/*
-		 * Closures are the most flexible way to handle requests. They allow to 
-		 * determine how the application should react depending on any of the
-		 * request's components.
-		 */
-		return $this->getTarget($params);
-		
+		return $this->getSource()->test($request->getUri());
 	}
 	
 	/**

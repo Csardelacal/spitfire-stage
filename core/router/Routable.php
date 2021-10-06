@@ -2,6 +2,8 @@
 
 use Closure;
 use spitfire\collection\Collection;
+use spitfire\core\http\request\handler\RouterActionRequestHandler;
+use spitfire\core\http\request\handler\RouterClosureRequestHandler;
 
 /**
  * The routable class is the base class for both routers and router servers, 
@@ -136,6 +138,8 @@ abstract class Routable
 	 */
 	public function addRoute($pattern, $target, $method = 0x03, $protocol = 0x03) {
 		
+		$match = URIPattern::make($pattern);
+		
 		/**
 		 * We always wrap our target in a function to be invoked if the router
 		 * matched the method. I am not a fan of this way of handling the code,
@@ -145,14 +149,15 @@ abstract class Routable
 		 * @todo Replace with requesthandlerinterfaces
 		 */
 		if (is_array($target)) {
-			$call = function() use ($target) { return Closure::fromCallable([spitfire()->provider()->get($target[0]), $target[1]]); };
+			assert(isset($target[0]) && isset($target[1]));
+			$handler = new RouterActionRequestHandler($match, $target[0], $target[1]);
 		}
 		
 		elseif ($target instanceof Closure) {
-			$call = function() use ($target) { return $target; };
+			$handler = new RouterClosureRequestHandler($match, $target);
 		}
 		
-		return $this->routes->push(new Route(URIPattern::make($pattern), $call, $method, $protocol)); 
+		return $this->routes->push(new Route($match, $handler, $method, $protocol)); 
 	}
 	
 	public function getRoutes() {
