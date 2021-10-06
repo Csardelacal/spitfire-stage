@@ -9,6 +9,7 @@ use spitfire\core\config\Configuration;
 use spitfire\core\kernel\KernelInterface;
 use spitfire\cli\Console;
 use spitfire\core\exceptions\FailureException;
+use spitfire\core\Response;
 use spitfire\exceptions\ApplicationException;
 use spitfire\io\request\Request;
 use spitfire\io\media\FFMPEGManipulator;
@@ -227,6 +228,28 @@ function view(?string $identifier, array $data) : StreamInterface
 	else {
 		return Stream::fromString((new View($file, $data))->render());
 	}
+}
+
+/**
+ * This function provides a shorthand way of creating a response to a request, this
+ * is very useful in combination with the view() function, allowing you to respond
+ * from a controller with something like this:
+ * 
+ * `return response(view('home'));`
+ * 
+ * Or something along the lines of:
+ * 
+ * `return response(view('notfound'), 404);
+ * 
+ * @param StreamInterface $stream
+ * @param int $code
+ * @param string[][] $headers
+ * 
+ * @return Response
+ */
+function response(StreamInterface $stream, int $code = 200, array $headers = []) : Response
+{
+	return new Response($stream, $code, $headers);
 }
 
 /**
