@@ -82,26 +82,51 @@ class ValidationMiddleware implements MiddlewareInterface
 		})->filter();
 		
 		/**
-		 * We invoke the ViewFactory to set the new defaults for views that are created
-		 * from here on out. This way, whenever the application invokes the view() method,
-		 * we also pass the errors into the new view so the validation can be properly
-		 * displayed.
-		 */
-		$this->container->get(ViewFactory::class)->set('errors', $errors);
-		
-		/**
 		 * If there's errors, and there's a special handler defined for error pages, then we 
 		 * send the user to the appropriate page.
 		 * 
 		 * Here's where I'd recommend introduce a flasher handler that would redirect the user
 		 * to the form page and have the data they sent us resubmitted, allowing it to pretend
 		 * it is a get request, using a "_method" hidden input.
-		 * 
-		 * @todo Introduce flasher handler
 		 */
-		if (!$errors->isEmpty() && $this->response) {
-			return $this->response->handle($request);
-		}
+		if (!$errors->isEmpty()) {
+			
+			/**
+			 * If a response is provided by the developer, we can continue using that.
+			 */
+			if ($this->response) {
+				return $this->response->handle($request);
+			}
+			
+			/**
+			 * If the client expects a json response, we will send a json response with the error validation
+			 */
+			elseif ($request->hasHeader('accept') && $request->getHeader('accept')[0] === 'application/json') {
+				return response(
+					view(null, ['status' => 'failed', 'errors' => $errors]), 
+					200, 
+					['Content-Type' => ['application/json']]
+				);
+			}
+			
+			/**
+			 * If the client is sending the data via post, and is expecting to be redirected, we will send them
+			 * back to the page that delivered them to us.
+			 */
+			elseif ($request->hasHeader('referrer')) {
+				return response(
+					view('_error/validation.html', ['errors' => $errors, 'submitted' => $request->getParsedBody(), 'location' => $request->getHeader('referrer')[0]])
+				);
+			}
+			
+			/**
+			 * Without a referrer we can't reliably redirect the user to a location to retry entering the data 
+			 * properly.
+			 */
+			else {
+				throw new ApplicationException('Validation failed');
+			}
+		} 
 		
 		/**
 		 * If the errors are empty, or we just do want the controller to handle them in an explicit
