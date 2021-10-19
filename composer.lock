@@ -4,25 +4,25 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9b893aa6a18885a9052236fb2defcc72",
+    "content-hash": "5204f4ba9e85b60599da00aa9e4a4a7d",
     "packages": [
         {
             "name": "andrewbreksa/rsmq",
-            "version": "1.2.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/abreksa4/php-rsmq.git",
-                "reference": "49caa25f95b63ea9319c7d0775d8a0644207b8ed"
+                "reference": "6ce954b2bcdff3e64e8836869a95b1b6884f6d1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abreksa4/php-rsmq/zipball/49caa25f95b63ea9319c7d0775d8a0644207b8ed",
-                "reference": "49caa25f95b63ea9319c7d0775d8a0644207b8ed",
+                "url": "https://api.github.com/repos/abreksa4/php-rsmq/zipball/6ce954b2bcdff3e64e8836869a95b1b6884f6d1a",
+                "reference": "6ce954b2bcdff3e64e8836869a95b1b6884f6d1a",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": "^7.2",
+                "php": "^7.4|^8.0",
                 "predis/predis": "^1.1"
             },
             "require-dev": {
@@ -30,7 +30,6 @@
                 "phpstan/phpstan": "^0.11.12 || ^0.12.0",
                 "phpunit/phpunit": "^8.3 || ^9.0",
                 "roave/security-advisories": "dev-master",
-                "sensiolabs/security-checker": "^6.0",
                 "squizlabs/php_codesniffer": "^3.5",
                 "vimeo/psalm": "^3.12"
             },
@@ -60,9 +59,9 @@
             "description": "Redis Simple Message Queue.",
             "support": {
                 "issues": "https://github.com/abreksa4/php-rsmq/issues",
-                "source": "https://github.com/abreksa4/php-rsmq/tree/master"
+                "source": "https://github.com/abreksa4/php-rsmq/tree/v2.0.1"
             },
-            "time": "2020-07-18T17:18:58+00:00"
+            "time": "2021-10-04T05:17:01+00:00"
         },
         {
             "name": "magic3w/url-reflection",
@@ -716,14 +715,14 @@
         },
         {
             "name": "spitfire/defer",
-            "version": "0.2.1",
+            "version": "0.2.2",
             "source": {
                 "type": "git",
                 "url": "https://phabricator.magic3w.com/source/spitfire-defer.git",
-                "reference": "9bf94cffbac83592138713c83b33764717acaced"
+                "reference": "40fe22088e7186461136286d1b6982f785f2e20c"
             },
             "require": {
-                "andrewbreksa/rsmq": "^1.2",
+                "andrewbreksa/rsmq": "^2.0",
                 "spitfire/cli": "^0.1.0",
                 "spitfire/exception": "^0.1.0"
             },
@@ -748,7 +747,7 @@
                 }
             ],
             "description": "Allozs spitfire apps to defer tasks to be executed at a later point",
-            "time": "2021-09-07T09:02:52+00:00"
+            "time": "2021-09-10T08:58:40+00:00"
         },
         {
             "name": "spitfire/dependency-provider",
