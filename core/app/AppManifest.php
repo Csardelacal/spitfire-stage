@@ -53,7 +53,7 @@ class AppManifest
 	 * The entrypoint is the name of the class that initializes the application,
 	 * this allows the application to intiailize it's routes.
 	 * 
-	 * @var class-string|null
+	 * @var class-string
 	 */
 	private $entrypoint;
 	
@@ -80,10 +80,11 @@ class AppManifest
 	 * from an app manifest included in composer.json
 	 * 
 	 * @param string $name
+	 * @param string $entrypoint
 	 * @param Collection<AppManifest> $apps
 	 * @param string[] $events
 	 */
-	public function __construct(string $name, string $entrypoint = null, Collection $apps, array $events) 
+	public function __construct(string $name, string $entrypoint, Collection $apps, array $events) 
 	{
 		assert(class_exists($entrypoint));
 		
@@ -102,11 +103,11 @@ class AppManifest
 	 * includes the init code for the router, allows the application to initialize itself,
 	 * etc.
 	 * 
-	 * @return class-string|null
+	 * @return class-string
 	 */
-	public function getEntrypoint(): ?string 
+	public function getEntrypoint(): string 
 	{
-		assert($this->entrypoint === null || class_exists($this->entrypoint));
+		assert(class_exists($this->entrypoint));
 		return $this->entrypoint;
 	}
 	
