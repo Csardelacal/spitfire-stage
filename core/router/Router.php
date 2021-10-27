@@ -1,6 +1,7 @@
 <?php namespace spitfire\core\router;
 
 use Closure;
+use Psr\Http\Message\ServerRequestInterface;
 use spitfire\core\Response;
 use Psr\Http\Server\RequestHandlerInterface;
 use spitfire\collection\Collection;
@@ -63,12 +64,10 @@ class Router extends Routable
 	 * @todo The extension should be passed down to the servers (and therefore 
 	 * the routes) to allow the routes to respond to different requests properly.
 	 * 
-	 * @param string $url
-	 * @param string $method
-	 * @param string $protocol
+	 * @param ServerRequestInterface $request
 	 * @return RouterResult
 	 */
-	public function rewrite ($url, $method, $protocol) : RouterResult
+	public function rewrite (ServerRequestInterface $request) : RouterResult
 	{
 		
 		#Combine routes from the router and server
@@ -90,13 +89,9 @@ class Router extends Routable
 			assert($route instanceof Route);
 			
 			#Verify whether the route is valid at all
-			if (!$route->test($url, $method, $protocol)) { continue; }
-			
-			#Check whether the route can rewrite the request
-			$rewrite = $route->rewrite($url, $method, $protocol, $ext);
-			assert($rewrite !== false);
-
-			if ( $rewrite instanceof Closure) { return new RouterResult($rewrite); }
+			if ($route->test($request)) {
+				return new RouterResult($route->getTarget());
+			}
 		}
 		
 		/**
@@ -109,7 +104,7 @@ class Router extends Routable
 		 * that a parent route that matches a request will override a child.
 		 */
 		foreach ($this->children as $child) {
-			$_r = $child->rewrite($url, $method, $protocol);
+			$_r = $child->rewrite($request);
 			if ($_r) { return $_r; }
 		}
 		
