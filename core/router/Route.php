@@ -1,5 +1,7 @@
 <?php namespace spitfire\core\router;
 
+use spitfire\exceptions\ApplicationException;
+
 /**
  * A route is a class that rewrites a URL path (route) that matches a
  * route or pattern (old_route) into a new route that the system can 
@@ -50,20 +52,10 @@ class Route extends RewriteRule
 	 * @param string $method
 	 * @param string $protocol
 	 * @param string $extension
-	 * @return \spitfire\core\Path|\spitfire\core\Response
+	 * @return void
 	 */
 	public function rewrite($URI, $method, $protocol, string $extension = 'php') 
 	{
-		$params = $this->getSource()->test($URI);
-		
-		if ($params === null) { return null; }
-		
-		/*
-		 * Closures are the most flexible way to handle requests. They allow to 
-		 * determine how the application should react depending on any of the
-		 * request's components.
-		 */
-		return $this->getTarget($params);
-		
+		throw new ApplicationException('Deprecated Route::rewrite called, use Route::getTarget to get the requesthandler', 2110281247);
 	}
 }

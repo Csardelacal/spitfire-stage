@@ -46,7 +46,6 @@ class RouterTest extends TestCase
 		#Prepare a route that redirects with no parameters
 		$route  = $router->get('/test', [TestController::class, 'index']);
 		$this->assertEquals(true, $route->test('/test', 'GET', Route::PROTO_HTTP));
-		$this->assertInstanceOf(Closure::class, $route->rewrite('/test', 'GET', Route::PROTO_HTTP));
 		$this->assertEquals(false, $route->test('/test', 'POST', Route::PROTO_HTTP));
 			//> This last test should fail because we're sending a POST request to a GET route
 		
@@ -61,9 +60,6 @@ class RouterTest extends TestCase
 		$this->assertEquals(true, $route1->test('/this/is/a/test',  'GET', Route::PROTO_HTTP), 'The route should match a route without trailing slash');
 		$this->assertEquals(true, $route1->test('/this/is/a/test/', 'GET', Route::PROTO_HTTP), 'The route should match a route with a trailing slash');
 		$this->assertEquals(false, $route1->test('/this/is/a/test/with/more', 'GET', Route::PROTO_HTTP), 'The route should not match excessive content');
-		$this->assertEquals(false, $route1->rewrite('/this/is/a/test/with/extra', 'GET', Route::PROTO_HTTP), 'The route should not match additional pieces');;
-		
-		$this->assertInstanceOf(Closure::class, $route1->rewrite('/this/is/a/test/', 'GET', Route::PROTO_HTTP), 'The route should match a route with a trailing slash');
 		
 	}
 	
@@ -84,9 +80,6 @@ class RouterTest extends TestCase
 		
 		#Test whether matching works for the array string
 		$this->assertEquals(true, $route->test('/another/test', 'GET', Route::PROTO_HTTP));
-		
-		#Test if the route returns a Path object
-		$this->assertInstanceOf(Closure::class, $route->rewrite('/another/test', 'GET', Route::PROTO_HTTP));
 	}
 	
 	public function testArrayRouteWithStaticFragments() {
