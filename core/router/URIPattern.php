@@ -203,10 +203,11 @@ class URIPattern
 	 * of patterns and parameters.
 	 * 
 	 * @param type $parameters
-	 * @return type
+	 * @return string
 	 * @throws PrivateException
 	 */
-	public function reverse($parameters) {
+	public function reverse($parameters) : string 
+	{
 		
 		/*
 		 * If the data we're receiving is a parameters object, then we'll extract
