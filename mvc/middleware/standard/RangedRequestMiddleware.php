@@ -69,11 +69,11 @@ class RangedRequestMiddleware implements MiddlewareInterface
 			list($start, $end) = explode('-', substr($sent, 6));
 			$stream = $response->getBody();
 			
-			$segment = new StreamSegment($stream, $start, $end ?: min($stream->getSize() - 1, $start + 1.3 * 1024 * 1024));
+			$segment = new StreamSegment($stream, (int)$start, $end ?: min($stream->getSize() - 1, $start + 1.3 * 1024 * 1024));
 			
 			return $response->withStatus(206)
-				->withHeader('Content-range', 'bytes ' . strval($segment->getStart()) . '-' . ($segment->getEnd()) . '/' . $body->getSize())
-				->withHeader('Content-length', $segment->getSize())
+				->withHeader('Content-range', 'bytes ' . strval($segment->getStart()) . '-' . ($segment->getEnd()) . '/' . $stream->getSize())
+				->withHeader('Content-length', (string)$segment->getSize())
 				->withBody($segment);
 		}
 		

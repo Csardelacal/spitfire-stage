@@ -277,5 +277,26 @@ class StreamSegment implements StreamInterface
 	{
 		return $this->src->getMetadata($key);
 	}
+	
+	/**
+	 * 
+	 * @return int
+	 */
+	public function getStart() : int
+	{
+		return $this->start;
+	}
+	
+	/**
+	 * 
+	 * @return int
+	 */
+	public function getEnd() : int
+	{
+		/**
+		 * The minus one is to convert the length into the offset.
+		 */
+		return $this->end? $this->end : $this->start + $this->getSize() - 1;
+	}
 
 }
