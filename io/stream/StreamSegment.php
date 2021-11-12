@@ -65,7 +65,7 @@ class StreamSegment implements StreamInterface
 	 * 
 	 * @param StreamInterface $src
 	 * @param int $start
-	 * @param int $end
+	 * @param int|null $end The last INDEX of the stream to be included
 	 * @throws ApplicationException
 	 */
 	public function __construct(StreamInterface $src, $start, $end = null) 
@@ -99,13 +99,13 @@ class StreamSegment implements StreamInterface
 		 * it shooting past the size of the underlying stream
 		 */
 		if ($this->end) {
-			$end = min($this->end, $this->src->getSize());
+			$size = min($this->end + 1, $this->src->getSize());
 		}
 		else {
-			$end = $this->src->getSize();
+			$size = $this->src->getSize();
 		}
 		
-		return $end - $this->start;
+		return $size - $this->start;
 	}
 	
 	/**
@@ -127,28 +127,13 @@ class StreamSegment implements StreamInterface
 	public function read($length = null) : string
 	{
 		
-		if ($this->end) {
-			$max = $this->end - $this->src->tell() + 1;
-			
-			if ($max <= 0) {
-				return '';
-			}
-			
-			$read = $this->src->read($length);
-			
-			if (isset($read[$max])) {
-				$this->src->seek($this->end);
-				return substr($read, 0, $max);
-			}
-			else {
-				return $read;
-			}
-		}
-		
-		else {
-			return $this->src->read($length);
-		}
-		
+		/**
+		 * The end is either defined by the user, or by the last index available
+		 * to a stream.
+		 */
+		$end = $this->end? $this->end : $this->src->getSize() - 1;
+		$max = $end - $this->src->tell() + 1;
+		return $this->src->read($length? clamp(0, $length, $max) : $max);
 		
 	}
 	
