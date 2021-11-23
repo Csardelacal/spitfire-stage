@@ -86,26 +86,6 @@ parameters:
 			path: _init/LoadConfiguration.php
 
 		-
-			message: "#^Call to method init\\(\\) on an unknown class spitfire\\\\_init\\\\Provider\\.$#"
-			count: 1
-			path: _init/ProvidersInit.php
-
-		-
-			message: "#^PHPDoc tag @var for variable \\$provider contains unknown class spitfire\\\\_init\\\\Provider\\.$#"
-			count: 1
-			path: _init/ProvidersInit.php
-
-		-
-			message: "#^Parameter \\#1 \\$input of function array_walk_recursive is passed by reference, so it expects variables only\\.$#"
-			count: 1
-			path: _init/ProvidersInit.php
-
-		-
-			message: "#^Parameter \\#1 \\$input of function array_walk_recursive is passed by reference, so it expects variables only\\.$#"
-			count: 1
-			path: _init/ProvidersRegister.php
-
-		-
 			message: "#^Invalid array key type spitfire\\\\core\\\\type\\.$#"
 			count: 1
 			path: core/Headers.php
