@@ -1,5 +1,6 @@
 <?php namespace spitfire\mvc\middleware\standard;
 
+use ArrayAccess;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -8,6 +9,7 @@ use spitfire\collection\Collection;
 use spitfire\ast\Scope;
 use spitfire\core\ContextInterface;
 use spitfire\core\Response;
+use spitfire\exceptions\ApplicationException;
 use spitfire\provider\Container;
 use spitfire\validation\ValidationException;
 use spitfire\validation\parser\Parser;
@@ -77,8 +79,17 @@ class ValidationMiddleware implements MiddlewareInterface
 	 */
 	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
 	{
-		$errors = $this->rules->each(function (ValidationRule $rule, string $key) use ($request) {
-			return $rule->test($request->getParsedBody()[$key]?? null);
+		$body = $request->getParsedBody()?: [];
+		
+		/**
+		 * Check that the body is actually set and an array or ArrayAccess object. We don't support
+		 * any other mechanism for the validation. Please note that this will not be checked in
+		 * production. Your application needs to work properly when it leaves development.
+		 */
+		assert(is_array($body) || $body instanceof ArrayAccess);
+		
+		$errors = $this->rules->each(function (ValidationRule $rule, string $key) {
+			return $rule->test($body[$key]?? null);
 		})->filter();
 		
 		/**
@@ -133,57 +144,6 @@ class ValidationMiddleware implements MiddlewareInterface
 		 * manner, we can let the application do so.
 		 */
 		return $handler->handle($request);
-	}
-	
-	/**
-	 * 
-	 * @deprecated
-	 * @todo Remove
-	 */
-	public function before(ContextInterface $context) {
-		$expressions = $context->annotations['validate']?? null;
-		$parser      = new Parser();
-		
-		$context->validation = new Collection();
-		
-		if (!$expressions) {
-			return;
-		}
-		
-		foreach ($expressions as $expression) {
-			$throw = true;
-			
-			if(substr($expression, 0, 2) === '>>') {
-				$expression = substr($expression, 2);
-				$throw      = false;
-			}
-		
-			/*
-			 * Create a context with the variables that we want to have within the 
-			 * expression's scope.
-			 */
-			$scope = new Scope();
-			$scope->set('GET', $_GET);
-			$scope->set('POST', $_POST);
-			$scope->set('ARGV', $_SERVER['argv']?? []);
-		
-			$result = $parser->parse($expression)->resolve($scope);
-			
-			if (!empty($result)) {
-				if ($throw) { throw new ValidationException('Validation failed', 400, $result); }
-				$context->validation->add($result);
-			}
-		}
-	}
-	
-	
-	/**
-	 * 
-	 * @deprecated
-	 * @todo Remove
-	 */
-	public function after(ContextInterface $context, Response $response = null) {
-		
 	}
 
 }
