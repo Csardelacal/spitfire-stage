@@ -65,11 +65,14 @@
         },
         {
             "name": "magic3w/url-reflection",
-            "version": "v0.1.3",
+            "version": "0.1.4",
             "source": {
                 "type": "git",
                 "url": "https://phabricator.magic3w.com/source/url-reflection.git",
-                "reference": "c106e4bde9cf2a565121ba2efc47a12defbc61bb"
+                "reference": "cedbe8f038b2faf6b7e1462ead68330c9fe8c44d"
+            },
+            "require": {
+                "psr/http-message": "^1.0"
             },
             "require-dev": {
                 "phpstan/phpstan": "^0.12.77",
@@ -92,7 +95,7 @@
                 }
             ],
             "description": "Allows applications to have a URL parsed and retrieve information about it's components",
-            "time": "2021-04-08T09:01:02+00:00"
+            "time": "2021-11-26T10:25:03+00:00"
         },
         {
             "name": "phpstan/phpstan",
