@@ -618,6 +618,12 @@ class Request implements ServerRequestInterface
 		$request = new Request($method, $uri, $headers, $cookies, $serverParams, $body);
 		
 		/**
+		 * We default to assuming that the content type is undefined, and then loop over the
+		 * headers to attempt and find a header that overrides this.
+		 */
+		$contentType = null;
+		
+		/**
 		 * Loop over the content-type headers available (spoiler, it's only one) and extract the content
 		 * type. Since the content type can be followed by a semicolon to add boundary information and
 		 * charset information, we just parse the very first bit containing the mime type of the payload.
