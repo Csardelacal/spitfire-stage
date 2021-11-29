@@ -47,10 +47,10 @@ class RouterNestedTest extends TestCase
 		});
 		
 		$r1 = $this->router->rewrite('/test/test/hello-world', 'GET', Route::PROTO_HTTP);
-		$this->assertInstanceOf(Path::class, $r1);
+		$this->assertInstanceOf(RouterResult::class, $r1);
 		
 		$r1 = $this->router->rewrite('/test/hello-world', 'GET', Route::PROTO_HTTP);
-		$this->assertEquals(false, $r1);
+		$this->assertEquals(false, $r1->success());
 	}
 	
 }
