@@ -43,6 +43,10 @@ use spitfire\provider\Container;
 class WebKernel implements KernelInterface
 {
 	
+	/**
+	 * 
+	 * @var Router
+	 */
 	private $router;
 	
 	public function __construct(Container $provider) 
@@ -60,12 +64,14 @@ class WebKernel implements KernelInterface
 		 * we prefer.
 		 */
 		else {
-			$this->router = $provider->assemble(Router::class, ['prefix' => '']);
+			$router = $provider->assemble(Router::class, ['prefix' => '']);
+			assert($router instanceof Router);
+			$this->router = $router;
 			$provider->set(Router::class, $this->router);
 		}
 	}
 	
-	public function boot()
+	public function boot() : void
 	{
 	}
 	

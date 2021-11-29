@@ -60,7 +60,7 @@ class ConsoleKernel implements KernelInterface
 	 * execute some initial housekeeping and setup tasks before it starts executing
 	 * the user's command.
 	 */
-	public function boot()
+	public function boot() : void
 	{
 		
 	}
@@ -85,7 +85,7 @@ class ConsoleKernel implements KernelInterface
 	 * 
 	 * @throws CommandNotFoundException
 	 * @param string $command
-	 * @param array $arguments
+	 * @param string[] $arguments
 	 * @return int
 	 */
 	public function exec(string $command, array $arguments) : int
@@ -128,7 +128,7 @@ class ConsoleKernel implements KernelInterface
 	 * The list of init scripts that need to be executed in order for the kernel to
 	 * be usable.
 	 * 
-	 * @return array
+	 * @return string[]
 	 */
 	public function initScripts(): array 
 	{
