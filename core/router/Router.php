@@ -89,17 +89,13 @@ class Router extends Routable
 			#Verify whether the route is valid at all
 			if (!$route->test($request)) { continue; }
 			
-			#Check whether the route can rewrite the request
-			$rewrite = $route->rewrite($request);
-			assert($rewrite instanceof RequestHandlerInterface);
-			
 			/**
 			 * The middleware is placed around the rewritten route in a
 			 * decorated stack of middleware.
 			 */
 			return new RouterResult($this->middleware->reverse()->reduce(function (RequestHandlerInterface $handler, MiddlewareInterface $middleware) {
 				return new DecoratingRequestHandler($handler, $middleware);
-			}, $rewrite));
+			}, $route->getTarget()));
 		}
 		
 		/**
