@@ -184,7 +184,7 @@ class Schema
 	 * @param int $length
 	 * @return StringField
 	 */
-	public function string(string $name, int $length = false) : StringField
+	public function string(string $name, int $length) : StringField
 	{
 		assert($length > 0);
 		return $this->setField($name, new StringField($length));
