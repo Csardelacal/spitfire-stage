@@ -6,28 +6,32 @@ use spitfire\utils\Strings;
 class StringTest extends TestCase
 {
 	
-	public function testSlugSpaces() {
+	public function testSlugSpaces()
+	{
 		$this->assertEquals('a-string-with-spaces', Strings::slug('a string with spaces'));
 		$this->assertEquals('a-string-with-spaces', Strings::slug('a string with  spaces'));
 		$this->assertEquals('a-string-with-spaces', Strings::slug('a string with   spaces'));
 	}
 	
-	public function testSlugSpecialChars() {
+	public function testSlugSpecialChars()
+	{
 		$this->assertEquals('a-string-with-special-chars', Strings::slug('a string with spëcìal chàrs'));
 		$this->assertEquals('a-string-with-special-ch-rs', Strings::slug('a string with spëcìal chªrs'));
 		$this->assertEquals('a-string-with-special-ch-rs', Strings::slug('a_string_with spëcìal chªrs'));
 		$this->assertEquals('a-string-with-special-ch-rs', Strings::slug('a_string_with spëcìal ch&rs'));
 		$this->assertEquals('a-string-with-special-ch-rs', Strings::slug('a_string_with spëcìal ch@rs'));
-		$this->assertEquals('a-string-with-special-h-rs',  Strings::slug('a_string_with spëcìal ©h@rs'));
+		$this->assertEquals('a-string-with-special-h-rs', Strings::slug('a_string_with spëcìal ©h@rs'));
 	}
 	
-	public function testSlugPunctuation() {
+	public function testSlugPunctuation()
+	{
 		$this->assertEquals('category-news', Strings::slug('category:news'));
 		$this->assertEquals('category-news', Strings::slug('category;news'));
 		$this->assertEquals('category-news', Strings::slug('category/news'));
 	}
 	
-	public function testSlugUppercase() {
+	public function testSlugUppercase()
+	{
 		$this->assertEquals('uppercase', Strings::slug('UPPERCASE'));
 		$this->assertEquals('some-caps', Strings::slug('Some CaPS'));
 	}
@@ -39,7 +43,8 @@ class StringTest extends TestCase
 	 * 
 	 * @covers \Strings::camel2underscores
 	 */
-	public function testCamelCase2UnderscoreConversions() {
+	public function testCamelCase2UnderscoreConversions()
+	{
 		$this->assertEquals('some_string', Strings::camel2underscores('someString'));
 		$this->assertEquals('some_string', Strings::camel2underscores('SomeString'));
 	}
@@ -50,7 +55,8 @@ class StringTest extends TestCase
 	 * 
 	 * @covers \Strings::underscores2camel
 	 */
-	public function testUnderscore2CamelCaseConversions() {
+	public function testUnderscore2CamelCaseConversions()
+	{
 		$this->assertEquals('SomeString', Strings::underscores2camel('some_string'));
 		$this->assertEquals('someString', Strings::underscores2camel('some_string', false));
 	}
@@ -60,7 +66,8 @@ class StringTest extends TestCase
 	 * 
 	 * @covers \Strings::escape
 	 */
-	public function testEscape() {
+	public function testEscape()
+	{
 		$this->assertEquals('&lt;strong', Strings::escape('<strong'));
 	}
 	
@@ -69,17 +76,19 @@ class StringTest extends TestCase
 	 * 
 	 * @covers \Strings::quote
 	 */
-	public function testQuote() {
+	public function testQuote()
+	{
 		$this->assertEquals('&quot;strong', Strings::quote('"strong'));
 		$this->assertEquals('&#039;strong', Strings::quote('\'strong'));
 	}
 
 	/**
-    * Replacing URLs in text is actually surprisingly difficult.
-    * 
-    * @covers \Strings::quote
+	* Replacing URLs in text is actually surprisingly difficult.
+	* 
+	* @covers \Strings::quote
    */
-	public function testURL() {
+	public function testURL()
+	{
 		$this->assertEquals(
 			'Hello world, checkout <a href="https://magic3w.com/?about=us&team=true">https://magic3w.com/?about=us&amp;team=true</a>',
 			Strings::urls('Hello world, checkout https://magic3w.com/?about=us&team=true')
@@ -92,15 +101,15 @@ class StringTest extends TestCase
 	}
 
 	/**
-    * Replacing URLs in text is actually surprisingly difficult.
-    * 
-    * @covers \spitfire\utils\Strings::urls
+	* Replacing URLs in text is actually surprisingly difficult.
+	* 
+	* @covers \spitfire\utils\Strings::urls
    */
-	public function testURLWithHash() {
+	public function testURLWithHash()
+	{
 		$this->assertEquals(
 			'Hello world, checkout <a href="https://magic3w.com/about#anchor">https://magic3w.com/about#anchor</a>',
 			Strings::urls('Hello world, checkout https://magic3w.com/about#anchor')
 		);
 	}
-
 }

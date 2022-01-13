@@ -1,6 +1,5 @@
 <?php namespace spitfire\io\lock;
 
-
 /* 
  * Copyright (C) 2021 César de la Cal Bretschneider <cesar@magic3w.com>.
  *
@@ -34,8 +33,12 @@ class FileLock implements LockInterface
 	
 	public function lock($wait = true): LockInterface 
 	{
-		if ($wait) { flock($this->handle, LOCK_EX); }
-		elseif(!flock($this->handle, LOCK_EX | LOCK_NB)) { throw new LockUnavailableException('Could not obtain lock', 2001311655); }
+		if ($wait) {
+			flock($this->handle, LOCK_EX); 
+		}
+		elseif (!flock($this->handle, LOCK_EX | LOCK_NB)) {
+			throw new LockUnavailableException('Could not obtain lock', 2001311655); 
+		}
 		
 		return $this;
 	}
@@ -53,7 +56,8 @@ class FileLock implements LockInterface
 			$fn();
 			$this->unlock();
 		} 
-		catch (LockUnavailableException$ex) { return; }
+		catch (LockUnavailableException$ex) {
+			return; 
+		}
 	}
-
 }

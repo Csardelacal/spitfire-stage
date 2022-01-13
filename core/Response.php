@@ -19,7 +19,7 @@ use spitfire\storage\objectStorage\FileInterface;
  * Response should look for an "onsuccess" GET parameter and send the user to
  * that endpoint.
  */
-class Response implements ResponseInterface 
+class Response implements ResponseInterface
 {
 
 	/**
@@ -54,7 +54,8 @@ class Response implements ResponseInterface
 	 * @param int             $status
 	 * @param mixed           $headers
 	 */
-	public function __construct(StreamInterface $body, $status = 200, $headers = null) {
+	public function __construct(StreamInterface $body, $status = 200, $headers = null)
+	{
 		$this->body = $body;
 		$this->headers = new Headers();
 		$this->headers->status($status);
@@ -188,8 +189,12 @@ class Response implements ResponseInterface
 	{
 		$header = $this->headers->get($name);
 		
-		if (empty($header)) { return implode(',', $header); }
-		else                { return ''; }
+		if (empty($header)) {
+			return implode(',', $header); 
+		}
+		else {
+			return ''; 
+		}
 	}
 
 	/**
@@ -199,7 +204,8 @@ class Response implements ResponseInterface
 	 * @param Headers $headers
 	 * @return Response
 	 */
-	public function setHeaders(Headers $headers) {
+	public function setHeaders(Headers $headers)
+	{
 		$this->headers = $headers;
 		return $this;
 	}
@@ -265,5 +271,4 @@ class Response implements ResponseInterface
 	{
 		return new Response($body, $this->getStatusCode(), $this->getHeaders());
 	}
-
 }
