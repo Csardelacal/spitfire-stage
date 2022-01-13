@@ -314,7 +314,7 @@ class Stream implements StreamInterface
 		return $result;
 	}
 	
-    /**
+	/**
 	 * Get stream metadata as an associative array or retrieve a specific key.
 	 *
 	 * The keys returned are identical to the keys returned from PHP's

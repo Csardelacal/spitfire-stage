@@ -3,7 +3,6 @@
 use spitfire\exceptions\FileNotFoundException;
 use spitfire\exceptions\PrivateException;
 
-
 class PNGQuant
 {
 	
@@ -21,12 +20,13 @@ class PNGQuant
 	 * @param $img    string The file to read in
 	 * @param $target string The file to write to
 	 */
-	public static function compress($img, $target = null) {
+	public static function compress($img, $target = null)
+	{
 		if (!file_exists($img)) {
 			throw new FileNotFoundException("File does not exist: $img");
 		}
 		
-		$descriptors = Array(Array('pipe', 'r'), Array('pipe', 'w'), Array('pipe', 'w'));
+		$descriptors = array(array('pipe', 'r'), array('pipe', 'w'), array('pipe', 'w'));
 		$proc = proc_open('pngquant -', $descriptors, $pipes);
 		
 		if (is_resource($proc)) {
@@ -51,4 +51,3 @@ class PNGQuant
 		return $img;
 	}
 }
-

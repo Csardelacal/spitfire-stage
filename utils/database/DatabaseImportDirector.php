@@ -154,7 +154,6 @@ class DatabaseImportDirector extends Director
 				
 				$fh = fopen($file, 'r');
 				$import($table, $fh);
-				
 			}
 			
 			$folders = glob($dir . '*', GLOB_ONLYDIR);
@@ -167,6 +166,4 @@ class DatabaseImportDirector extends Director
 		$walk($srcdir);
 		return 0;
 	}
-	
-	
 }

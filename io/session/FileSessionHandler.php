@@ -13,18 +13,21 @@ class FileSessionHandler extends SessionHandler
 	
 	private $data = false;
 
-	public function __construct($directory, $timeout = null) {
+	public function __construct($directory, $timeout = null)
+	{
 		$this->directory = $directory;
 		parent::__construct($timeout);
 	}
 
-	public function close() {
+	public function close()
+	{
 		flock($this->getHandle(), LOCK_UN);
 		fclose($this->getHandle());
 		return true;
 	}
 
-	public function destroy($id) {
+	public function destroy($id)
+	{
 		$file = sprintf('%s/sess_%s', $this->directory, $id);
 		$this->handle = null;
 		file_exists($file) && unlink($file);
@@ -32,8 +35,11 @@ class FileSessionHandler extends SessionHandler
 		return true;
 	}
 
-	public function gc($maxlifetime) {
-		if ($this->getTimeout()) { $maxlifetime = $this->getTimeout(); }
+	public function gc($maxlifetime)
+	{
+		if ($this->getTimeout()) {
+			$maxlifetime = $this->getTimeout(); 
+		}
 
 		foreach (glob("$this->directory/sess_*") as $file) {
 			if (filemtime($file) + $maxlifetime < time() && file_exists($file)) {
@@ -44,9 +50,14 @@ class FileSessionHandler extends SessionHandler
 		return true;
 	}
 	
-	public function getHandle() {
-		if ($this->handle)         { return $this->handle; }
-		if (!Session::sessionId()) { return false; }
+	public function getHandle()
+	{
+		if ($this->handle) {
+			return $this->handle; 
+		}
+		if (!Session::sessionId()) {
+			return false; 
+		}
 		
 		
 		#Initialize the session itself
@@ -59,7 +70,8 @@ class FileSessionHandler extends SessionHandler
 		return $this->handle;
 	}
 
-	public function open($savePath, $sessionName) {
+	public function open($savePath, $sessionName)
+	{
 		if (empty($this->directory)) { 
 			$this->directory = $savePath; 
 		}
@@ -71,14 +83,16 @@ class FileSessionHandler extends SessionHandler
 		return true;
 	}
 
-	public function read($__garbage) {
+	public function read($__garbage)
+	{
 		//The system can only read the first 8MB of the session.
 		//We do hardcode to improve the performance since PHP will stop at EOF
 		fseek($this->getHandle(), 0);
 		return $this->data = (string) fread($this->getHandle(), 8 * 1024 * 1024); 
 	}
 
-	public function write($__garbage, $data) {
+	public function write($__garbage, $data)
+	{
 		//If your session contains more than 8MB of data you're probably doing
 		//something wrong.
 		if (isset($data[8*1024*1024])) { 
@@ -94,5 +108,4 @@ class FileSessionHandler extends SessionHandler
 		
 		return !!fwrite($this->getHandle(), $data);
 	}
-
 }

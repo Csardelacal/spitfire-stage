@@ -9,7 +9,6 @@ class SessionProvider extends Provider
 	
 	public function init() 
 	{
-		
 	}
 	
 	public function register()
@@ -24,7 +23,8 @@ class SessionProvider extends Provider
 			 * if this folder is not writable, the system will fail.
 			 */
 			case 'file':
-				$this->container->set(Session::class, new Session(new FileSessionHandler($settings['directory']?? session_save_path())));
+				$_session = new Session(new FileSessionHandler($settings['directory']?? session_save_path()));
+				$this->container->set(Session::class, $_session);
 				break;
 			/**
 			 * Assuming the developer selected no session handling mechanism
@@ -44,5 +44,4 @@ class SessionProvider extends Provider
 				break;
 		}
 	}
-	
 }
