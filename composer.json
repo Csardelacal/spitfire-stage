@@ -55,5 +55,11 @@
 		"baseline" : [
 			"./vendor/bin/phpstan analyse --generate-baseline --level 5 ."
 		]
+	},
+	
+	"config": {
+		"allow-plugins": {
+			"nodejs-php-fallback/nodejs-php-fallback": false
+		}
 	}
 }
