@@ -173,7 +173,7 @@ abstract class Field
 	{
 		return $this->auto_increment;
 	}
-
+	
 	/**
 	 * Defines whether the field is used as autoincrement field. This setting
 	 * will have no effect on any field that is not an integer field.
@@ -238,7 +238,7 @@ abstract class Field
 	{
 		return $this->schema;
 	}
-
+	
 	
 	/**
 	 * Gets the parent model for this field. This allows the field to 
@@ -406,7 +406,7 @@ abstract class Field
 	 * @return adapters\AdapterInterface The new adapter
 	 */
 	abstract public function getAdapter(Model$model);
-
+	
 	/**
 	 * This method informs the system what primary datatype the overriding 
 	 * Field class uses. You can define custom classes that store data into

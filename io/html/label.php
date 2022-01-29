@@ -26,7 +26,7 @@ class HTMLLabel extends HTMLElement
 	{
 		$this->caption = $text;
 	}
-
+	
 	public function getTag()
 	{
 		return 'label';

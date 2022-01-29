@@ -77,7 +77,7 @@ class LanguageAcceptParser
 		$this->default = $default;
 		$this->header  = $header;
 	}
-		
+	
 	/**
 	 * Parses the Accept Language header and returns a list of locales that it 
 	 * extracted.

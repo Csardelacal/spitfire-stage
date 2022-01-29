@@ -11,7 +11,7 @@ class SimpleStackTracePrinter extends StackTracePrinter
 	{
 		return file_get_contents(dirname(__FILE__) . '/stp.css');
 	}
-
+	
 	public function wrapExcerpt($html, $startLine)
 	{
 		return sprintf('<pre class="excerpt"><ol start="%d">%s</ol></pre>', $startLine, $html);

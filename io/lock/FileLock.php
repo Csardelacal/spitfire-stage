@@ -42,13 +42,13 @@ class FileLock implements LockInterface
 		
 		return $this;
 	}
-
+	
 	public function unlock() 
 	{
 		flock($this->handle, LOCK_UN);
 		return $this;
 	}
-
+	
 	public function synchronize($fn, $wait = true) 
 	{
 		try {

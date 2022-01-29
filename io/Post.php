@@ -53,7 +53,7 @@ class Post
 				
 				$post = json_decode(json_encode(simplexml_import_dom($doc)), 1);
 				break;
-				
+			
 			/*
 			 * All other cases are handled by the standard post mechanism in PHP.
 			 */

@@ -33,7 +33,7 @@ class BooleanField extends Field
 	{
 		return new BooleanAdapter($this, $model);
 	}
-
+	
 	public function getConnectorQueries(\spitfire\storage\database\Query $parent)
 	{
 		return array();

@@ -60,7 +60,7 @@ class ChildrenAdapter implements ArrayAccess, Iterator, AdapterInterface
 		
 		$query = $this->field->getTable()->getDb()->getObjectFactory()
 				  ->queryInstance($this->field->getTarget()->getTable());
-				
+		
 		return $query->where($this->field->getReferencedField()->getName(), $this->parent->getQuery());
 	}
 	
@@ -101,49 +101,49 @@ class ChildrenAdapter implements ArrayAccess, Iterator, AdapterInterface
 		
 		return $this->children;
 	}
-
+	
 	public function current()
 	{
 		$this->children !== null? $this->children : $this->toArray();
 		return current($this->children);
 	}
-
+	
 	public function key()
 	{
 		$this->children !== null? $this->children : $this->toArray();
 		return key($this->children);
 	}
-
+	
 	public function next()
 	{
 		$this->children !== null? $this->children : $this->toArray();
 		return next($this->children);
 	}
-
+	
 	public function rewind()
 	{
 		$this->children !== null? $this->children : $this->toArray();
 		return reset($this->children);
 	}
-
+	
 	public function valid()
 	{
 		$this->children !== null? $this->children : $this->toArray();
 		return !!current($this->children);
 	}
-
+	
 	public function offsetExists($offset)
 	{
 		$this->children !== null? $this->children : $this->toArray();
 		return isset($this->children[$offset]);
 	}
-
+	
 	public function offsetGet($offset)
 	{
 		$this->children !== null? $this->children : $this->toArray();
 		return $this->children[$offset];
 	}
-
+	
 	public function offsetSet($offset, $value)
 	{
 		$this->children !== null? $this->children : $this->toArray();
@@ -169,7 +169,7 @@ class ChildrenAdapter implements ArrayAccess, Iterator, AdapterInterface
 			$this->discarded[] = $previous;
 		}
 	}
-
+	
 	public function offsetUnset($offset)
 	{
 		$this->children !== null? $this->children : $this->toArray();
@@ -191,7 +191,7 @@ class ChildrenAdapter implements ArrayAccess, Iterator, AdapterInterface
 			$e->store();
 		});
 	}
-
+	
 	public function dbGetData()
 	{
 		return array();
@@ -223,12 +223,12 @@ class ChildrenAdapter implements ArrayAccess, Iterator, AdapterInterface
 	{
 		return true;
 	}
-
+	
 	public function rollback()
 	{
 		return true;
 	}
-
+	
 	public function usrGetData()
 	{
 		return $this;
@@ -252,7 +252,7 @@ class ChildrenAdapter implements ArrayAccess, Iterator, AdapterInterface
 		
 		foreach ($this->children as $child) {
 			$role  = $this->getField()->getRole();
-
+			
 			#We set the value but do not yet commit it, this will happen whenever the 
 			#parent model is written.
 			$child->{$role} = null;
@@ -268,13 +268,13 @@ class ChildrenAdapter implements ArrayAccess, Iterator, AdapterInterface
 		
 		foreach ($this->children as $child) {
 			$role  = $this->getField()->getRole();
-
+			
 			#We set the value but do not yet commit it, this will happen whenever the 
 			#parent model is written.
 			$child->{$role} = $this->getModel();
 		}
 	}
-
+	
 	public function getField()
 	{
 		return $this->field;

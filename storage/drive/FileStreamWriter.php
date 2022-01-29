@@ -49,7 +49,7 @@ class FileStreamWriter implements \spitfire\io\stream\StreamWriterInterface
 	{
 		return $this->fh?: $this->fh = fopen($this->path, 'w+');
 	}
-
+	
 	public function seek($position): \spitfire\io\stream\StreamInterface
 	{
 		
@@ -60,7 +60,7 @@ class FileStreamWriter implements \spitfire\io\stream\StreamWriterInterface
 		fseek($this->open(), $position);
 		return $this;
 	}
-
+	
 	public function write($string)
 	{
 		

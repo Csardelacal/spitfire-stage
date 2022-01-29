@@ -6,47 +6,47 @@ use spitfire\io\session\Session;
 
 class FileSessionHandler extends SessionHandler
 {
-
+	
 	private $directory;
 	
 	private $handle;
 	
 	private $data = false;
-
+	
 	public function __construct($directory, $timeout = null)
 	{
 		$this->directory = $directory;
 		parent::__construct($timeout);
 	}
-
+	
 	public function close()
 	{
 		flock($this->getHandle(), LOCK_UN);
 		fclose($this->getHandle());
 		return true;
 	}
-
+	
 	public function destroy($id)
 	{
 		$file = sprintf('%s/sess_%s', $this->directory, $id);
 		$this->handle = null;
 		file_exists($file) && unlink($file);
-
+		
 		return true;
 	}
-
+	
 	public function gc($maxlifetime)
 	{
 		if ($this->getTimeout()) {
 			$maxlifetime = $this->getTimeout(); 
 		}
-
+		
 		foreach (glob("$this->directory/sess_*") as $file) {
 			if (filemtime($file) + $maxlifetime < time() && file_exists($file)) {
 				unlink($file);
 			}
 		}
-
+		
 		return true;
 	}
 	
@@ -69,20 +69,20 @@ class FileSessionHandler extends SessionHandler
 		
 		return $this->handle;
 	}
-
+	
 	public function open($savePath, $sessionName)
 	{
 		if (empty($this->directory)) { 
 			$this->directory = $savePath; 
 		}
-
+		
 		if (!is_dir($this->directory) && !mkdir($this->directory, 0777, true)) {
 			throw new FileNotFoundException($this->directory . 'does not exist and could not be created');
 		}
 		
 		return true;
 	}
-
+	
 	public function read($__garbage)
 	{
 		//The system can only read the first 8MB of the session.
@@ -90,7 +90,7 @@ class FileSessionHandler extends SessionHandler
 		fseek($this->getHandle(), 0);
 		return $this->data = (string) fread($this->getHandle(), 8 * 1024 * 1024); 
 	}
-
+	
 	public function write($__garbage, $data)
 	{
 		//If your session contains more than 8MB of data you're probably doing

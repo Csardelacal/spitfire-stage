@@ -56,7 +56,7 @@ class Session
 		$this->handler->attach();
 		return $this;
 	}
-		
+	
 	public function set($key, $value, $app = null)
 	{
 		if ($app === null) {
@@ -64,13 +64,13 @@ class Session
 		}
 		/* @var $app App */
 		$namespace = ($app->getMapping()->getNameSpace())? $app->getMapping()->getNameSpace() : '*';
-
+		
 		if (!self::sessionId()) {
 			$this->start(); 
 		}
 		$_SESSION[$namespace][$key] = $value;
 	}
-
+	
 	public function get($key, $app = null)
 	{
 		if ($app === null) {
@@ -78,7 +78,7 @@ class Session
 		}
 		/* @var $app App */
 		$namespace = $app && $app->getMapping()->getNameSpace()? $app->getMapping()->getNameSpace() : '*';
-
+		
 		if (!isset($_COOKIE[session_name()])) {
 			return null; 
 		}
@@ -87,25 +87,25 @@ class Session
 		}
 		return isset($_SESSION[$namespace][$key])? $_SESSION[$namespace][$key] : null;
 	}
-
+	
 	public function lock($userdata, App$app = null)
 	{
-
+		
 		$user = array();
 		$user['ip']       = $_SERVER['REMOTE_ADDR'];
 		$user['userdata'] = $userdata;
 		$user['secure']   = true;
-
+		
 		$this->set('_SF_Auth', $user, $app);
 	}
-
+	
 	public function isSafe(App$app = null)
 	{
-
+		
 		$user = $this->get('_SF_Auth', $app);
 		if ($user) {
 			$user['secure'] = $user['secure'] && ($user['ip'] == $_SERVER['REMOTE_ADDR']);
-
+			
 			$this->set('_SF_Auth', $user, $app);
 			return $user['secure'];
 		}
@@ -113,14 +113,14 @@ class Session
 			return false;
 		}
 	}
-
+	
 	public function getUser(App$app = null)
 	{
-
+		
 		$user = $this->get('_SF_Auth', $app);
 		return $user? $user['userdata'] : null;
 	}
-
+	
 	public function start()
 	{
 		if (self::sessionId()) {
@@ -165,7 +165,7 @@ class Session
 		
 		return session_destroy();
 	}
-
+	
 	/**
 	 * This class requires to be managed in "singleton" mode, since there can only
 	 * be one session handler for the system.
@@ -176,7 +176,7 @@ class Session
 	public static function getInstance()
 	{
 		static $instance = null;
-
+		
 		if ($instance !== null) {
 			return $instance; 
 		}

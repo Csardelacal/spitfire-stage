@@ -21,7 +21,7 @@ class IntegerField extends Field
 	{
 		return $this->unsigned;
 	}
-
+	
 	public function getDataType()
 	{
 		return Field::TYPE_INTEGER;
@@ -36,12 +36,12 @@ class IntegerField extends Field
 			return parent::validate($value); 
 		}
 	}
-
+	
 	public function getAdapter(Model $model)
 	{
 		return new IntegerAdapter($this, $model);
 	}
-
+	
 	public function getConnectorQueries(\spitfire\storage\database\Query $parent)
 	{
 		return array();

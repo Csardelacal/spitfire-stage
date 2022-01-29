@@ -9,7 +9,7 @@ use spitfire\model\adapters\ManyToManyAdapter;
 
 class ManyToManyField extends ChildrenField
 {
-
+	
 	/** @var Schema */
 	private $meta;
 	
@@ -22,7 +22,7 @@ class ManyToManyField extends ChildrenField
 	{
 		return parent::getModel()->getName();
 	}
-
+	
 	/** @return Schema */
 	public function getTarget()
 	{
@@ -46,15 +46,15 @@ class ManyToManyField extends ChildrenField
 		if (!$this->getTable()->getDb()->getTableCache()->contains("{$first}_{$second}")) {
 			$model = $this->meta = new Schema("{$first}_{$second}");
 			unset($model->_id);
-
+			
 			$model->{$src}         = new Reference($src);
 			$model->{$targetalias} = new Reference($target);
-
+			
 			$model->{$src}->setPrimary(true);
 			$model->{$targetalias}->setPrimary(true);
 			
 			$model->index($model->{$src}, $model->{$targetalias})->setPrimary(true);
-
+			
 			#Register the table
 			$this->getModel()->getTable()->getDb()->table($model);
 		} else {
@@ -65,7 +65,7 @@ class ManyToManyField extends ChildrenField
 		$this->target = $this->getModel()->getTable()->getDb()->table($this->target)->getSchema();
 		return $this->target;
 	}
-
+	
 	/**
 	 * @param Schema $schema
 	 * @return PhysicalField
@@ -90,7 +90,7 @@ class ManyToManyField extends ChildrenField
 		$this->getTarget();
 		return $this->meta;
 	}
-
+	
 	public function getDataType()
 	{
 		return Field::TYPE_BRIDGED;

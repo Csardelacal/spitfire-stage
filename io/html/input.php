@@ -18,7 +18,7 @@ class HTMLInput extends HTMLUnclosedElement
 			$this->setParameter('id', $id);
 		}
 	}
-
+	
 	public function getTag()
 	{
 		return 'input';

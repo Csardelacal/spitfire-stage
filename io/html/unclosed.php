@@ -9,7 +9,7 @@ abstract class HTMLUnclosedElement extends HTMLElement
 	{
 		return null;
 	}
-
+	
 	public function getContent()
 	{
 		return null;

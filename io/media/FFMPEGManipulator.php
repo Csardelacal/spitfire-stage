@@ -54,7 +54,7 @@ class FFMPEGManipulator implements MediaManipulatorInterface
 		$this->operations['blur'] = "boxblur=5:1";
 		return $this;
 	}
-
+	
 	public function fit($x, $y): MediaManipulatorInterface
 	{
 		$w = ((int)($x/2)) * 2;
@@ -65,13 +65,13 @@ class FFMPEGManipulator implements MediaManipulatorInterface
 		
 		return $this;
 	}
-
+	
 	public function grayscale(): MediaManipulatorInterface
 	{
 		$this->operations['gray'] = "hue=s=0";
 		return $this;
 	}
-
+	
 	public function load(\spitfire\storage\objectStorage\Blob $blob): MediaManipulatorInterface
 	{
 		$this->src = $blob;
@@ -79,13 +79,13 @@ class FFMPEGManipulator implements MediaManipulatorInterface
 		
 		return $this;
 	}
-
+	
 	public function quality($target = MediaManipulatorInterface::QUALITY_VERYHIGH): MediaManipulatorInterface
 	{
 		//Ignore this for now
 		return $this;
 	}
-
+	
 	public function scale($target, $side = MediaManipulatorInterface::WIDTH): MediaManipulatorInterface
 	{
 		if ($side === self::WIDTH) {
@@ -100,7 +100,7 @@ class FFMPEGManipulator implements MediaManipulatorInterface
 		$this->operations['scale'] = "scale={$w}:{$h}";
 		return $this;
 	}
-
+	
 	public function downscale($target, $side = MediaManipulatorInterface::WIDTH): MediaManipulatorInterface
 	{
 		if ($side === self::WIDTH) {
@@ -115,12 +115,12 @@ class FFMPEGManipulator implements MediaManipulatorInterface
 		$this->operations['scale'] = "scale={$w}:{$h}";
 		return $this;
 	}
-
+	
 	public function store(\spitfire\storage\objectStorage\Blob $location): \spitfire\storage\objectStorage\Blob
 	{
 		$tmpi = '/tmp/' . rand();
 		$tmpo = '/tmp/' . rand() . '.mp4';
-				
+		
 		file_put_contents($tmpi, $this->src->read());
 		exec(sprintf(
 			'ffmpeg -i %s -movflags faststart -pix_fmt yuv420p -r ntsc -crf 26 -vf "%s" %s 2>&1', 
@@ -130,7 +130,7 @@ class FFMPEGManipulator implements MediaManipulatorInterface
 		));
 		
 		console()->info('Filesize is ' . new \spitfire\io\Filesize(filesize($tmpo)))->ln();
-
+		
 		$location->write(file_get_contents($tmpo));
 		
 		unlink($tmpi);
@@ -138,7 +138,7 @@ class FFMPEGManipulator implements MediaManipulatorInterface
 		
 		return $location;
 	}
-
+	
 	public function supports(string $mime): bool
 	{
 		switch ($mime) {
@@ -150,12 +150,12 @@ class FFMPEGManipulator implements MediaManipulatorInterface
 				return false;
 		}
 	}
-
+	
 	public function background($r, $g, $b, $alpha = 0): MediaManipulatorInterface
 	{
 		return $this;
 	}
-
+	
 	public function poster(): MediaManipulatorInterface
 	{
 		$tmpi = '/tmp/' . rand();
@@ -166,7 +166,7 @@ class FFMPEGManipulator implements MediaManipulatorInterface
 		
 		return media()->load(storage()->retrieve('file://' . $tmpo));
 	}
-
+	
 	public function dimensions()
 	{
 		$tmpi = '/tmp/' . rand();

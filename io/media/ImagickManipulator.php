@@ -42,19 +42,19 @@ class ImagickManipulator implements MediaManipulatorInterface
 		$this->img->adaptiveblurimage(0, 10);
 		return $this;
 	}
-
+	
 	public function fit($x, $y): MediaManipulatorInterface
 	{
 		$this->img->cropthumbnailimage($x, $y);
 		return $this;
 	}
-
+	
 	public function grayscale(): MediaManipulatorInterface
 	{
 		$this->img->modulateImage(100, 0, 100);
 		return $this;
 	}
-
+	
 	public function load(\spitfire\storage\objectStorage\Blob $blob): MediaManipulatorInterface
 	{
 		if ($this->tmp) {
@@ -75,13 +75,13 @@ class ImagickManipulator implements MediaManipulatorInterface
 			throw new PrivateException('Imagick was enabled, but not installed', 1805301039);
 		}
 	}
-
+	
 	public function quality($target = MediaManipulatorInterface::QUALITY_VERYHIGH): MediaManipulatorInterface
 	{
 		//TODO Implement
 		return $this;
 	}
-
+	
 	public function scale($target, $side = MediaManipulatorInterface::WIDTH): MediaManipulatorInterface
 	{
 		if ($side === MediaManipulatorInterface::WIDTH) {
@@ -92,7 +92,7 @@ class ImagickManipulator implements MediaManipulatorInterface
 		}
 		return $this;
 	}
-
+	
 	public function store(\spitfire\storage\objectStorage\Blob $location): \spitfire\storage\objectStorage\Blob
 	{
 		$this->img->writeimage($this->tmp);
@@ -103,7 +103,7 @@ class ImagickManipulator implements MediaManipulatorInterface
 		
 		return $location;
 	}
-
+	
 	public function supports(string $mime): bool
 	{
 		switch ($mime) {
@@ -117,14 +117,14 @@ class ImagickManipulator implements MediaManipulatorInterface
 				return false;
 		}
 	}
-
+	
 	public function background($r, $g, $b, $alpha = 0): MediaManipulatorInterface
 	{
 		$this->img->setimagebackgroundcolor(new \ImagickPixel(sprintf('rgba(%d, %d, %d, %f)'), $r, $g, $g, $alpha));
 		$this->img->mergeimagelayers(Imagick::LAYERMETHOD_FLATTEN);
 		return $this;
 	}
-
+	
 	public function poster(): MediaManipulatorInterface
 	{
 		return $this;

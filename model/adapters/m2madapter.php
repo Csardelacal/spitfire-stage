@@ -85,14 +85,14 @@ class ManyToManyAdapter implements ArrayAccess, Iterator, AdapterInterface
 	{
 		#Get the fields in the Bridge table
 		$bridge_fields = $this->field->getBridge()->getFields();
-
+		
 		#Prepare a query for the records that are connected by this field
 		$bridge = $this->field->getBridge()->getTable();
 		$query  = $bridge->getDB()->getObjectFactory()->queryInstance($bridge);
-
+		
 		#We create a group to handle many to many connections that connect to the same model
 		$group = $query->group();
-
+		
 		#Write the query
 		foreach ($bridge_fields as $f) {
 			$pk = $this->parent->getPrimaryData();
@@ -112,11 +112,11 @@ class ManyToManyAdapter implements ArrayAccess, Iterator, AdapterInterface
 	public function store()
 	{
 		$bridge_records = $this->getBridgeRecordsQuery()->fetchAll();
-
+		
 		foreach ($bridge_records as $r) {
 			$r->delete();
 		}
-
+		
 		//@todo: Change for definitive.
 		$value = $this->toArray();
 		foreach ($value as $child) {
@@ -144,7 +144,7 @@ class ManyToManyAdapter implements ArrayAccess, Iterator, AdapterInterface
 		$this->children = $this->getQuery()->fetchAll()->toArray();
 		return $this->children;
 	}
-
+	
 	public function current()
 	{
 		if (!$this->children) {
@@ -152,7 +152,7 @@ class ManyToManyAdapter implements ArrayAccess, Iterator, AdapterInterface
 		}
 		return current($this->children);
 	}
-
+	
 	public function key()
 	{
 		if (!$this->children) {
@@ -160,7 +160,7 @@ class ManyToManyAdapter implements ArrayAccess, Iterator, AdapterInterface
 		}
 		return key($this->children);
 	}
-
+	
 	public function next()
 	{
 		if (!$this->children) {
@@ -168,7 +168,7 @@ class ManyToManyAdapter implements ArrayAccess, Iterator, AdapterInterface
 		}
 		return next($this->children);
 	}
-
+	
 	public function rewind()
 	{
 		if (!$this->children) {
@@ -176,7 +176,7 @@ class ManyToManyAdapter implements ArrayAccess, Iterator, AdapterInterface
 		}
 		return reset($this->children);
 	}
-
+	
 	public function valid()
 	{
 		if (!$this->children) {
@@ -184,7 +184,7 @@ class ManyToManyAdapter implements ArrayAccess, Iterator, AdapterInterface
 		}
 		return !!current($this->children);
 	}
-
+	
 	public function offsetExists($offset)
 	{
 		if (!$this->children) {
@@ -192,7 +192,7 @@ class ManyToManyAdapter implements ArrayAccess, Iterator, AdapterInterface
 		}
 		return isset($this->children[$offset]);
 	}
-
+	
 	public function offsetGet($offset)
 	{
 		if (!$this->children) {
@@ -200,7 +200,7 @@ class ManyToManyAdapter implements ArrayAccess, Iterator, AdapterInterface
 		}
 		return $this->children[$offset];
 	}
-
+	
 	public function offsetSet($offset, $value)
 	{
 		if (!$this->children) {
@@ -208,7 +208,7 @@ class ManyToManyAdapter implements ArrayAccess, Iterator, AdapterInterface
 		}
 		$this->children[$offset] = $value;
 	}
-
+	
 	public function offsetUnset($offset)
 	{
 		if (!$this->children) {
@@ -216,7 +216,7 @@ class ManyToManyAdapter implements ArrayAccess, Iterator, AdapterInterface
 		}
 		unset($this->children[$offset]);
 	}
-
+	
 	public function commit()
 	{
 		
@@ -229,14 +229,14 @@ class ManyToManyAdapter implements ArrayAccess, Iterator, AdapterInterface
 		$this->getBridgeRecordsQuery()->all()->each(function ($e) {
 			$e->delete();
 		});
-
+		
 		//@todo: Change for definitive.
 		foreach ($value as $child) {
 			$insert = new BridgeAdapter($this->field, $this->parent, $child);
 			$insert->makeRecord()->store();
 		}
 	}
-
+	
 	public function dbGetData()
 	{
 		return array();
@@ -268,12 +268,12 @@ class ManyToManyAdapter implements ArrayAccess, Iterator, AdapterInterface
 	{
 		return true;
 	}
-
+	
 	public function rollback()
 	{
 		return true;
 	}
-
+	
 	public function usrGetData()
 	{
 		return $this;

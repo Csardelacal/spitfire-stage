@@ -41,12 +41,12 @@ class PNGQuant
 			
 			$code = proc_close($proc); //Not yet being used, this is just a test
 		}
-
+		
 		if (!$compressed_png_content) {
 			die($error_output);
 			throw new PrivateException('Compressing PNG failed. Is pngquant 1.8+ installed on the server?');
 		}
-
+		
 		file_put_contents($target? : $img, $compressed_png_content);
 		return $img;
 	}

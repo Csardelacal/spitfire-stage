@@ -46,7 +46,7 @@ class Event
 	{
 		return $this->action;
 	}
-
+	
 	public function getBody()
 	{
 		return $this->body;

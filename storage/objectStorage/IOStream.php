@@ -39,12 +39,12 @@ class IOStream
 		$this->reader = $reader;
 		$this->writer = $writer;
 	}
-
+	
 	public function reader() : StreamReaderInterface
 	{
 		return $this->reader;
 	}
-
+	
 	public function writer() : StreamWriterInterface
 	{
 		if (!$this->writer) {

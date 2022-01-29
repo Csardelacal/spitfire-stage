@@ -48,22 +48,22 @@ class Driver implements DriverInterface
 			$this->path = spitfire()->locations()->storage(substr($this->path, 1), '\/');
 		}
 	}
-
+	
 	public function atime($key)
 	{
 		return fileatime($this->path . $key);
 	}
-
+	
 	public function contains($key)
 	{
 		return file_exists($this->path . $key) && !is_dir($this->path . $key);
 	}
-
+	
 	public function delete($key)
 	{
 		return unlink($this->path . $key);
 	}
-
+	
 	public function mime($key)
 	{
 		return mime($this->path . $key);
@@ -80,27 +80,27 @@ class Driver implements DriverInterface
 	{
 		return filesize($this->path . $key);
 	}
-
+	
 	public function mtime($key)
 	{
 		return filemtime($this->path . $key);
 	}
-
+	
 	public function read($key)
 	{
 		return file_get_contents($this->path . $key);
 	}
-
+	
 	public function stream($key): IOStream
 	{
 		return new IOStream(new FileStreamReader($this->path . $key), new FileStreamWriter($this->path . $key));
 	}
-
+	
 	public function url($key, $ttl)
 	{
 		throw new BadMethodCallException();
 	}
-
+	
 	public function write($key, $contents, $ttl = null)
 	{
 		$full = $this->path . $key;
@@ -112,7 +112,7 @@ class Driver implements DriverInterface
 		
 		return file_put_contents($full, $contents);
 	}
-
+	
 	public function readonly($key)
 	{
 		return !((!file_exists($this->path . $key) && is_writable($this->path . dirname($key))) || is_writable($this->path . $key));

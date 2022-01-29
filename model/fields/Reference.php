@@ -115,7 +115,7 @@ class Reference extends Field
 		
 		return $_return;
 	}
-
+	
 	/**
 	 * Defines this field and all of it's children as reference fields.
 	 * 
@@ -125,12 +125,12 @@ class Reference extends Field
 	{
 		return Field::TYPE_REFERENCE;
 	}
-
+	
 	public function getAdapter(Model $model)
 	{
 		return new ReferenceAdapter($this, $model);
 	}
-
+	
 	public function getConnectorQueries(\spitfire\storage\database\Query $parent)
 	{
 		$of    = $this->getTable()->getDb()->getObjectFactory();

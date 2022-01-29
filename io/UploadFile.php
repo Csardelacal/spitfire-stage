@@ -180,7 +180,7 @@ class UploadFile implements UploadedFileInterface
 		
 		return $copy;
 	}
-
+	
 	/**
 	 * Returns the maximum uploadable file size
 	 *
@@ -197,12 +197,12 @@ class UploadFile implements UploadedFileInterface
 				Filesize::parse(ini_get('upload_max_filesize')),
 			];
 		}
-
+		
 		// Sort ascending based on bytes
 		uasort($sizes, function (Filesize$a, Filesize$b) {
 			return $a->getSize() <=> $b->getSize();
 		});
-
+		
 		return $sizes[0];
 	}
 }

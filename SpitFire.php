@@ -42,7 +42,7 @@ class SpitFire
 	
 	public function __construct()
 	{
-
+		
 		$this->apps = new Cluster();
 		$this->publisher = new Publisher();
 		$this->locations = new Locations();

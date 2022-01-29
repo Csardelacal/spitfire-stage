@@ -15,22 +15,22 @@ class HTMLTable extends HTMLElement
 		}
 		$this->putRow($row);
 	}
-
+	
 	public function putRow($row)
 	{
 		$this->rows[] = $row;
 	}
-
+	
 	public function getChildren()
 	{
 		return  $this->rows;
 	}
-
+	
 	public function getParams()
 	{
 		return array('cellspacing' => 0);
 	}
-
+	
 	public function getTag()
 	{
 		return 'table';

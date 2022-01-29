@@ -20,7 +20,7 @@ class HTMLSpan extends HTMLElement
 			}
 		}
 	}
-
+	
 	public function getTag()
 	{
 		return 'span';
