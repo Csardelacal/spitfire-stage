@@ -41,7 +41,7 @@ class SessionProvider extends Provider
 			 */
 			default:
 				throw new ApplicationException('No valid session handler was found', 2105271304);
-				break;
+			break;
 		}
 	}
 }

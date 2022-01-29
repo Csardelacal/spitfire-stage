@@ -116,7 +116,7 @@ class DatabaseImportDirector extends Director
 			#Destroy the old layout and overwrite it
 			$table->getLayout()->create();
 			
-
+			
 			while ($next = stream_get_line($fh, 16 * 1024 * 1024, "\n")) {
 				$decoded = json_decode($next);
 				$record = $table->newRecord();

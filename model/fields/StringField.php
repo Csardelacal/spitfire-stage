@@ -20,7 +20,7 @@ class StringField extends Field
 	{
 		return $this->length;
 	}
-
+	
 	public function getDataType()
 	{
 		return Field::TYPE_STRING;
@@ -35,12 +35,12 @@ class StringField extends Field
 			return parent::validate($value); 
 		}
 	}
-
+	
 	public function getAdapter(Model $model)
 	{
 		return new StringAdapter($this, $model);
 	}
-
+	
 	public function getConnectorQueries(\spitfire\storage\database\Query $parent)
 	{
 		return array();

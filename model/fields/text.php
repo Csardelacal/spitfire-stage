@@ -43,7 +43,7 @@ class TextField extends Field
 	{
 		return new StringAdapter($this, $model);
 	}
-
+	
 	public function getConnectorQueries(\spitfire\storage\database\Query $parent)
 	{
 		return array();

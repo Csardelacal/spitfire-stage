@@ -57,7 +57,7 @@ abstract class Model implements Serializable, JsonSerializable
 		$this->makeAdapters();
 		$this->populateAdapters($data);
 	}
-
+	
 	/**
 	 * This method is used to generate the 'template' for the table that allows
 	 * spitfire to automatically generate tables and allows it to check the types
@@ -143,7 +143,7 @@ abstract class Model implements Serializable, JsonSerializable
 			$value->commit();
 		}
 	}
-		
+	
 	/**
 	 * Returns the values of the fields included in this records primary
 	 * fields
@@ -186,7 +186,7 @@ abstract class Model implements Serializable, JsonSerializable
 	{
 		return $this->table;
 	}
-
+	
 	public function __set($field, $value)
 	{
 		

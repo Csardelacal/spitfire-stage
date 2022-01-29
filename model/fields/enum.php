@@ -27,12 +27,12 @@ class EnumField extends Field
 	{
 		return Field::TYPE_STRING;
 	}
-
+	
 	public function getAdapter(Model $model)
 	{
 		return new EnumAdapter($this, $model);
 	}
-
+	
 	public function getConnectorQueries(\spitfire\storage\database\Query $parent)
 	{
 		return array();

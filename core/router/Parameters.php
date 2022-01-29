@@ -114,7 +114,7 @@ class Parameters
 		$this->unparsed = $unparsed;
 		return $this;
 	}
-
+	
 	/**
 	 * Replaces the parameters contained in this object in a string. This will
 	 * look for prefixed versions of a kez and replace them with the key's value
@@ -127,10 +127,10 @@ class Parameters
 		foreach ($this->parameters as $key => $val) {
 			$string = str_replace(':'.$key, $val, $string);
 		}
-
+		
 		return $string;
 	}
-
+	
 	public function merge($with)
 	{
 		$_return = new Parameters();

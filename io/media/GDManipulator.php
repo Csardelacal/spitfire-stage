@@ -40,7 +40,7 @@ class GDManipulator implements MediaManipulatorInterface
 		imagefilter($this->img, IMG_FILTER_SELECTIVE_BLUR);
 		return $this;
 	}
-
+	
 	public function fit($x, $y): MediaManipulatorInterface
 	{
 		$wider = ($this->meta[0] / $x) > ($this->meta[1] / $y);
@@ -55,7 +55,7 @@ class GDManipulator implements MediaManipulatorInterface
 			$offset_y = ($this->meta[1] - $y * $ratio) / 2;
 			$offset_x = 0;
 		}
-
+		
 		if ($offset_x == 0 && $offset_y == 0) {
 			$x = min($this->meta[0], $x);
 			$y = min($this->meta[1], $y);
@@ -73,13 +73,13 @@ class GDManipulator implements MediaManipulatorInterface
 		
 		return $this;
 	}
-
+	
 	public function grayscale(): MediaManipulatorInterface
 	{
 		imagefilter($this->img, IMG_FILTER_GRAYSCALE);
 		return $this;
 	}
-
+	
 	public function load(Blob $blob): MediaManipulatorInterface
 	{
 		
@@ -90,9 +90,9 @@ class GDManipulator implements MediaManipulatorInterface
 		$this->tmp = '/tmp/' . rand();
 		file_put_contents($this->tmp, $blob->read());
 		
-
+		
 		$this->meta = getimagesize($this->tmp);
-
+		
 		if (!function_exists('imagecreatefrompng')) {
 			throw new PrivateException("GD is not installed.", 1805301100);
 		}
@@ -125,7 +125,7 @@ class GDManipulator implements MediaManipulatorInterface
 		
 		return $this;
 	}
-
+	
 	public function quality($target = MediaManipulatorInterface::QUALITY_VERYHIGH): MediaManipulatorInterface
 	{
 		//TODO: Implement
@@ -154,7 +154,7 @@ class GDManipulator implements MediaManipulatorInterface
 		
 		return $this;
 	}
-
+	
 	public function scale($target, $side = MediaManipulatorInterface::WIDTH): MediaManipulatorInterface
 	{
 		
@@ -181,7 +181,7 @@ class GDManipulator implements MediaManipulatorInterface
 		
 		return $this;
 	}
-
+	
 	public function store(Blob $location): Blob
 	{
 		
@@ -223,7 +223,7 @@ class GDManipulator implements MediaManipulatorInterface
 		
 		return $location;
 	}
-
+	
 	public function supports(string $mime): bool
 	{
 		
@@ -238,12 +238,12 @@ class GDManipulator implements MediaManipulatorInterface
 				return false;
 		}
 	}
-
+	
 	public function poster(): MediaManipulatorInterface
 	{
 		return $this;
 	}
-
+	
 	public function dimensions()
 	{
 		return array($this->meta[0], $this->meta[1]);

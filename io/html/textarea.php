@@ -34,7 +34,7 @@ class HTMLTextArea extends HTMLElement
 	{
 		return $this->text;
 	}
-
+	
 	public function getTag()
 	{
 		return 'textarea';

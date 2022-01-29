@@ -22,7 +22,7 @@ class HTMLForm extends HTMLElement
 		$ret[] = $this->submit;
 		return $ret;
 	}
-
+	
 	public function getTag()
 	{
 		return 'form';

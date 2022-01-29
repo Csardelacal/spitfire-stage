@@ -10,12 +10,12 @@ class FileField extends Field
 	{
 		return Field::TYPE_FILE;
 	}
-
+	
 	public function getAdapter(Model $model)
 	{
 		return new StringAdapter($this, $model);
 	}
-
+	
 	public function getConnectorQueries(\spitfire\storage\database\Query $parent)
 	{
 		return array();

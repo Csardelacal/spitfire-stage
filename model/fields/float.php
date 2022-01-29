@@ -22,7 +22,7 @@ class FloatField extends Field
 	{
 		return $this->unsigned;
 	}
-
+	
 	public function getDataType()
 	{
 		return Field::TYPE_FLOAT;
@@ -37,12 +37,12 @@ class FloatField extends Field
 			return parent::validate($value); 
 		}
 	}
-
+	
 	public function getAdapter(Model $model)
 	{
 		return new FloatAdapter($this, $model);
 	}
-
+	
 	public function getConnectorQueries(Query $parent)
 	{
 		return array();

@@ -19,7 +19,7 @@ class ChildrenField extends Field
 	protected $role;
 	/** @var string|Schema|Model */
 	protected $target;
-
+	
 	/**
 	 * @param string|Schema|Model $target
 	 * @param string              $role
@@ -135,12 +135,12 @@ class ChildrenField extends Field
 			}
 		}
 	}
-
+	
 	public function getAdapter(Model $model)
 	{
 		return new ChildrenAdapter($this, $model);
 	}
-
+	
 	public function getConnectorQueries(\spitfire\storage\database\Query $parent)
 	{
 		$query = $this->getTarget()->getTable()->getCollection()->getAll();

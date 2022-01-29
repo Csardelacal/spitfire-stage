@@ -34,7 +34,7 @@ use TextField;
  */
 class Schema
 {
-
+	
 	/**
 	 * Contains a list of the fields that this model uses t ostore data. 
 	 * Fields are stored in a FILO way, so the earlier you register a field
@@ -97,7 +97,7 @@ class Schema
 		#Create the index collection
 		$this->indexes = new Collection([$pk]);
 	}
-
+	
 	/**
 	 * Imports a set of fields. This allows to back them up in case they're 
 	 * needed. Please note that the parent setting for them will be rewritten.
@@ -111,7 +111,7 @@ class Schema
 			$this->{$field->getName()} = $field; #This triggers the setter
 		}
 	}
-		 
+	
 	/**
 	 * Returns a logical field for this model. "Logical field" refers to fields
 	 * that can also contain complex datatypes aka References. 
@@ -437,7 +437,7 @@ class Schema
 		#Get the field
 		$f = $this->fields[$name];
 		unset($this->fields[$name]);
-
+		
 		#Find an index that may contain the field and remove it too
 		$this->indexes = $this->indexes->filter(function ($e) use ($f) {
 			return !$e->contains($f);

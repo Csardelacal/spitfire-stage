@@ -47,7 +47,7 @@ class Strings
 			array('-' /*Remove non-alphanumeric characters*/, '-' /*Remove multiple spaces*/), 
 			$string
 		));
-				  
+		
 		return preg_replace(
 				  /*http://stackoverflow.com/questions/10444885/php-replace-foreign-characters-in-a-string*/
 			'/&([A-Za-z]{1,2})(acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);/i', 

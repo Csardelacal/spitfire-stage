@@ -20,7 +20,7 @@ class HTMLDiv extends HTMLElement
 			}
 		}
 	}
-
+	
 	public function getTag()
 	{
 		return 'div';

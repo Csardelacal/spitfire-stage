@@ -117,7 +117,7 @@ class Request implements ServerRequestInterface
 	 * @var Headers
 	 */
 	private $headers;
-
+	
 	/** 
 	 * The HTTP verb that is used to indicate what the server should do with the data
 	 * it receives from the client application. This allows us to specifically route 
@@ -284,7 +284,7 @@ class Request implements ServerRequestInterface
 	{
 		return $this->cookie;
 	}
-
+	
 	/**
 	 * Returns the content that is to be sent with the body. This is a string your
 	 * application has to set beforehand.
@@ -305,7 +305,7 @@ class Request implements ServerRequestInterface
 		$copy->body = $body;
 		return $copy;
 	}
-
+	
 	public function getHeaders()
 	{
 		return $this->headers->all();

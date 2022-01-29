@@ -13,7 +13,7 @@ class Filesize
 	
 	
 	public static $units = array('', 'K', 'M', 'G', 'T');
-
+	
 	/**
 	 * Creates the formatter with the passed value
 	 *
@@ -28,7 +28,7 @@ class Filesize
 	{
 		return $this->bytes;
 	}
-
+	
 	/**
 	 * Parses the size provided as a string and returns a Filesize instance or 
 	 * throws on failure.

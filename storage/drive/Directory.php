@@ -34,7 +34,7 @@ class Directory implements DirectoryInterface
 		
 		return new File($this, $name);
 	}
-
+	
 	public function all(): CollectionInterface
 	{
 		$contents = scandir($this->getPath());
@@ -48,7 +48,7 @@ class Directory implements DirectoryInterface
 			}
 		});
 	}
-
+	
 	public function uri() : string
 	{
 		return $this->up()->uri() . $this->path . '/';
@@ -58,12 +58,12 @@ class Directory implements DirectoryInterface
 	{
 		return rtrim($this->up()->getPath() . $this->path) . DIRECTORY_SEPARATOR;
 	}
-
+	
 	public function up(): NodeInterface
 	{
 		return $this->parent;
 	}
-
+	
 	public function mkdir($name): NodeInterface
 	{
 		
@@ -75,7 +75,7 @@ class Directory implements DirectoryInterface
 		
 		return $this->open($name);
 	}
-
+	
 	public function open($name): NodeInterface
 	{
 		$path = $this->getPath() . $name;
@@ -89,7 +89,7 @@ class Directory implements DirectoryInterface
 		
 		throw new FileNotFoundException($path . ' was not found', 1805301553);
 	}
-
+	
 	public function contains($name): int
 	{
 		
@@ -105,7 +105,7 @@ class Directory implements DirectoryInterface
 			return DirectoryInterface::CONTAINS_NONX;
 		}
 	}
-
+	
 	public function delete(): bool
 	{
 		return rmdir($this->getPath());

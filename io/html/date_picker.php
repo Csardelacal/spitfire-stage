@@ -4,7 +4,7 @@ namespace spitfire\io\html;
 
 class dateTimePicker extends HTMLSpan
 {
-
+	
 	private $timestamp;
 	private $inputname;
 	

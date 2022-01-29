@@ -34,7 +34,7 @@ class HTMLSelect extends HTMLElement
 		
 		return $children;
 	}
-
+	
 	public function getTag()
 	{
 		return 'select';

@@ -5,7 +5,7 @@ namespace spitfire\io\html;
 class HTMLOption extends HTMLElement
 {
 	private $caption = null;
-
+	
 	public function __construct($value, $caption)
 	{
 		$this->caption = $caption;
@@ -26,7 +26,7 @@ class HTMLOption extends HTMLElement
 	{
 		return $this->caption;
 	}
-
+	
 	public function getTag()
 	{
 		return 'option';

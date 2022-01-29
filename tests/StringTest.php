@@ -73,7 +73,7 @@ class StringTest extends TestCase
 		$this->assertEquals('&quot;strong', Strings::quote('"strong'));
 		$this->assertEquals('&#039;strong', Strings::quote('\'strong'));
 	}
-
+	
 	/**
 	 * Replacing URLs in text is actually surprisingly difficult.
 	 */
@@ -81,7 +81,7 @@ class StringTest extends TestCase
 	{
 		
 		$expect = 'Hello world, checkout '.
-			'<a href="https://magic3w.com/?about=us&team=true">https://magic3w.com/?about=us&amp;team=true</a>';
+		'<a href="https://magic3w.com/?about=us&team=true">https://magic3w.com/?about=us&amp;team=true</a>';
 		
 		$this->assertEquals(
 			$expect,
@@ -89,14 +89,14 @@ class StringTest extends TestCase
 		);
 		
 		$expect = '<a href="https://magic3w.com/?about=us&team=true">' .
-			'https://magic3w.com/?about=us&amp;team=true</a> &lt;&lt; Check this website';
-
+		'https://magic3w.com/?about=us&amp;team=true</a> &lt;&lt; Check this website';
+		
 		$this->assertEquals(
 			$expect,
 			Strings::urls('https://magic3w.com/?about=us&team=true << Check this website')
 		);
 	}
-
+	
 	/**
 	 * Replacing URLs in text is actually surprisingly difficult.
 	 */

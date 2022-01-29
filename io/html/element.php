@@ -30,12 +30,12 @@ abstract class HTMLElement
 	{
 		$this->children[] = $child;
 	}
-
+	
 	public function getChildren()
 	{
 		return $this->children;
 	}
-
+	
 	public function getContent()
 	{
 		$this->endBuffering();
@@ -59,7 +59,7 @@ abstract class HTMLElement
 			$this->addChild(ob_get_clean());
 		}
 	}
-
+	
 	public function __toString()
 	{
 		$tag = $this->getTag();

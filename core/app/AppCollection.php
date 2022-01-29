@@ -37,7 +37,7 @@ use spitfire\utils\Strings;
  */
 class AppCollection extends DefinedCollection
 {
-
+	
 	/**
 	 * Returns the application attached to the path in question.
 	 * 
@@ -47,7 +47,7 @@ class AppCollection extends DefinedCollection
 	 */
 	public function byUrl(string $url)
 	{
-
+		
 		/*
 		 * URL namespaces must be delimited by slashes. This means that
 		 * paths are only valid if they start and end with a slash. This
@@ -62,7 +62,7 @@ class AppCollection extends DefinedCollection
 		if (!Strings::endsWith($url, '/')) {
 			$url.= '/'; 
 		}
-
+		
 		/**
 		 * Search the list of applications for one that matches the given path.
 		 */
@@ -70,7 +70,7 @@ class AppCollection extends DefinedCollection
 			return $e->url() == $url;
 		})->rewind();
 	}
-
+	
 	/**
 	 * When passing a class name to this function, the system must return a class that
 	 * this correlates with.
@@ -82,11 +82,11 @@ class AppCollection extends DefinedCollection
 	 */
 	public function byClassName($name)
 	{
-
+		
 		if (!is_string($name)) {
 			$name = get_class($name);
 		}
-
+		
 		if (empty($this->apps)) {
 			return $this;
 		}

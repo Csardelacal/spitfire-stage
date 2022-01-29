@@ -52,17 +52,17 @@ class File implements FileInterface, StreamSourceInterface, \spitfire\io\stream\
 	{
 		return $this->up()->getPath() . $this->path;
 	}
-
+	
 	public function up(): NodeInterface
 	{
 		return $this->parent;
 	}
-
+	
 	public function isWritable(): bool
 	{
 		return (file_exists($this->getPath()) && is_writable($this->getPath())) || $this->up()->isWritable();
 	}
-
+	
 	public function move(DirectoryInterface $to, string $name): FileInterface
 	{
 		/*
@@ -88,12 +88,12 @@ class File implements FileInterface, StreamSourceInterface, \spitfire\io\stream\
 	{
 		return file_put_contents($this->getPath(), $data);
 	}
-
+	
 	public function uri() : string
 	{
 		return $this->up()->uri() . $this->path;
 	}
-
+	
 	public function mime(): string
 	{
 		
@@ -108,22 +108,22 @@ class File implements FileInterface, StreamSourceInterface, \spitfire\io\stream\
 		
 		return mime($this->getPath())? : $lib[pathinfo($this->getPath(), PATHINFO_EXTENSION)];
 	}
-
+	
 	public function basename(): string
 	{
 		return pathinfo($this->getPath(), PATHINFO_BASENAME);
 	}
-
+	
 	public function filename(): string
 	{
 		return pathinfo($this->getPath(), PATHINFO_FILENAME);
 	}
-
+	
 	public function getStreamReader(): \spitfire\io\stream\StreamReaderInterface
 	{
 		return new FileStreamReader($this->getPath());
 	}
-
+	
 	public function getStreamWriter() : \spitfire\io\stream\StreamWriterInterface
 	{
 		return new FileStreamWriter($this->getPath());

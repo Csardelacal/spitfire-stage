@@ -106,7 +106,7 @@ class WebKernel implements KernelInterface
 	{
 		return $this->router;
 	}
-
+	
 	public function initScripts(): array 
 	{
 		return [

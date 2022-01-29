@@ -4,14 +4,14 @@ use SessionHandlerInterface;
 
 abstract class SessionHandler implements SessionHandlerInterface
 {
-
+	
 	private $timeout = null;
-
+	
 	public function __construct($timeout)
 	{
 		$this->timeout = $timeout;
 	}
-
+	
 	public function attach()
 	{
 		if ($this instanceof \SessionHandlerInterface) {
@@ -28,21 +28,21 @@ abstract class SessionHandler implements SessionHandlerInterface
 			);
 		}
 	}
-
+	
 	public function getTimeout()
 	{
 		return $this->timeout;
 	}
-
+	
 	public function setTimeout($timeout)
 	{
 		$this->timeout = $timeout;
 		return $this;
 	}
-
+	
 	public function start($savePath, $sessionName)
 	{
-
+		
 		/**
 		 * Open the session. The start method is kinda special, since we need to
 		 * set the cookies right after opening it. So we register this hook that
@@ -50,7 +50,7 @@ abstract class SessionHandler implements SessionHandlerInterface
 		 */
 		$this->open($savePath, $sessionName);
 	}
-		
+	
 	abstract public function open($savePath, $sessionName);
 	abstract public function close();
 	abstract public function read($id);
