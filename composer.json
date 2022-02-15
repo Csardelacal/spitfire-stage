@@ -2,9 +2,11 @@
 	"name": "spitfire/engine",
 	"license": "MIT",
 	"homepage": "https://spitfirephp.com",
+	
+	"description": "Spitfire is a simple framework for web development",
 
 	"require": {
-		"php" : ">7",
+		"php" : "^7||^8",
 		"ext-gd" : "*",
 		"spitfire/dependency-provider": "^0.2.4",
 		"spitfire/caching": "^0.1.0",
@@ -25,7 +27,6 @@
 		"monolog/monolog": "^2.2",
 		"phpstan/phpstan": "^1.4",
 		"pug-php/pug": "^3.4",
-		"respect/validation": "^2.2",
 		"magic3w/php-coding-standard": "^1.0"
 	},
 

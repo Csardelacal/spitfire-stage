@@ -626,7 +626,7 @@ function config($key, $fallback = null)
  *
  * Reads a value from the current environment.
  *
- * @param string Set the environment, or look up the current env
+ * @param string $param Set the environment, or look up the current env
  * @return string|null
  */
 function env(string $param) :? string
