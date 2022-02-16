@@ -31,13 +31,17 @@ class Query
 		$this->db = $db;
 		$this->model = $model;
 		
-		$this->query = new DatabaseQuery($this->model->getTable());
-		$this->query->selectAll();
+		$this->query = new DatabaseQuery($this->model->getTable()->getTableReference());
 	}
 	
 	public function getQuery()
 	{
 		return $this->query;
+	}
+	
+	public function getModel()
+	{
+		return $this->model;
 	}
 	
 	public function first(callable $or = null)
@@ -46,6 +50,8 @@ class Query
 	
 	public function all()
 	{
+		$this->query->selectAll();
+		$this->db->query($this->query);
 	}
 	
 	public function range(int $offset, int $size)

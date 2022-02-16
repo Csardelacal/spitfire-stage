@@ -33,6 +33,11 @@ abstract class Relationship implements RelationshipInterface
 		return $query;
 	}
 	
+	public function getModel(): Model
+	{
+		return $this->referenced->getModel();
+	}
+	
 	public function getField() : Field
 	{
 		return $this->field;
