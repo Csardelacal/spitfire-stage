@@ -517,12 +517,12 @@
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "Respect\\Stringifier\\": "src/"
-                },
                 "files": [
                     "src/stringify.php"
-                ]
+                ],
+                "psr-4": {
+                    "Respect\\Stringifier\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -693,16 +693,16 @@
         },
         {
             "name": "spitfire/collection",
-            "version": "0.1.2",
+            "version": "0.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spitfire-php/collection.git",
-                "reference": "64ed08f532d67e44b5d7f21f96ea41556768dd26"
+                "reference": "c3a90b5b028bec3af9cbd2a2580746b25e9eb1e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spitfire-php/collection/zipball/64ed08f532d67e44b5d7f21f96ea41556768dd26",
-                "reference": "64ed08f532d67e44b5d7f21f96ea41556768dd26",
+                "url": "https://api.github.com/repos/spitfire-php/collection/zipball/c3a90b5b028bec3af9cbd2a2580746b25e9eb1e5",
+                "reference": "c3a90b5b028bec3af9cbd2a2580746b25e9eb1e5",
                 "shasum": ""
             },
             "require-dev": {
@@ -729,9 +729,9 @@
             "description": "Provides collections for spitfire/engine",
             "support": {
                 "issues": "https://github.com/spitfire-php/collection/issues",
-                "source": "https://github.com/spitfire-php/collection/tree/0.1.2"
+                "source": "https://github.com/spitfire-php/collection/tree/0.1.3"
             },
-            "time": "2022-02-07T11:10:56+00:00"
+            "time": "2022-02-17T12:01:54+00:00"
         },
         {
             "name": "spitfire/database",
@@ -739,24 +739,24 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spitfire-php/database.git",
-                "reference": "0c158dd709244800cf9efaaa9f9bce767fde41f9"
+                "reference": "2083b424a71ad23c9c8309218a81277d5bb42938"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spitfire-php/database/zipball/0c158dd709244800cf9efaaa9f9bce767fde41f9",
-                "reference": "0c158dd709244800cf9efaaa9f9bce767fde41f9",
+                "url": "https://api.github.com/repos/spitfire-php/database/zipball/2083b424a71ad23c9c8309218a81277d5bb42938",
+                "reference": "2083b424a71ad23c9c8309218a81277d5bb42938",
                 "shasum": ""
             },
             "require": {
                 "magic3w/url-reflection": "^0.1.3",
                 "psr/log": "^1.1",
-                "spitfire/caching": "^0.1.0",
                 "spitfire/collection": "^0.1.1",
                 "spitfire/event": "^0.1.0",
                 "spitfire/exception": "^0.1.1"
             },
             "require-dev": {
                 "magic3w/php-coding-standard": "^1.0",
+                "monolog/monolog": "^2.3",
                 "phpstan/phpstan": "^0.12.92",
                 "phpunit/phpunit": "^9.5"
             },
@@ -780,9 +780,9 @@
             "description": "Database components for spitfire/engine",
             "support": {
                 "issues": "https://github.com/spitfire-php/database/issues",
-                "source": "https://github.com/spitfire-php/database/tree/master"
+                "source": "https://github.com/spitfire-php/database/tree/0.1.1"
             },
-            "time": "2022-02-08T10:43:19+00:00"
+            "time": "2022-02-23T08:58:17+00:00"
         },
         {
             "name": "spitfire/defer",
@@ -832,7 +832,7 @@
         },
         {
             "name": "spitfire/dependency-provider",
-            "version": "0.2.4",
+            "version": "0.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Magic3W/provider.git",
@@ -865,7 +865,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Magic3W/provider/issues",
-                "source": "https://github.com/Magic3W/provider/tree/0.2.4"
+                "source": "https://github.com/Magic3W/provider/tree/0.2.5"
             },
             "time": "2022-01-31T17:27:59+00:00"
         },
@@ -1636,16 +1636,16 @@
         },
         {
             "name": "phar-io/version",
-            "version": "3.1.1",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phar-io/version.git",
-                "reference": "15a90844ad40f127afd244c0cad228de2a80052a"
+                "reference": "4f7fd7836c6f332bb2933569e566a0d6c4cbed74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phar-io/version/zipball/15a90844ad40f127afd244c0cad228de2a80052a",
-                "reference": "15a90844ad40f127afd244c0cad228de2a80052a",
+                "url": "https://api.github.com/repos/phar-io/version/zipball/4f7fd7836c6f332bb2933569e566a0d6c4cbed74",
+                "reference": "4f7fd7836c6f332bb2933569e566a0d6c4cbed74",
                 "shasum": ""
             },
             "require": {
@@ -1681,9 +1681,9 @@
             "description": "Library for handling version information and constraints",
             "support": {
                 "issues": "https://github.com/phar-io/version/issues",
-                "source": "https://github.com/phar-io/version/tree/3.1.1"
+                "source": "https://github.com/phar-io/version/tree/3.2.1"
             },
-            "time": "2022-02-07T21:56:48+00:00"
+            "time": "2022-02-21T01:04:05+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -1978,16 +1978,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.10",
+            "version": "9.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "d5850aaf931743067f4bfc1ae4cbd06468400687"
+                "reference": "c011a0b6aaa4acd2f39b7f51fb4ad4442b6ec631"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/d5850aaf931743067f4bfc1ae4cbd06468400687",
-                "reference": "d5850aaf931743067f4bfc1ae4cbd06468400687",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/c011a0b6aaa4acd2f39b7f51fb4ad4442b6ec631",
+                "reference": "c011a0b6aaa4acd2f39b7f51fb4ad4442b6ec631",
                 "shasum": ""
             },
             "require": {
@@ -2043,7 +2043,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.10"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.12"
             },
             "funding": [
                 {
@@ -2051,7 +2051,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-12-05T09:12:13+00:00"
+            "time": "2022-02-23T06:30:26+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2296,16 +2296,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.13",
+            "version": "9.5.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "597cb647654ede35e43b137926dfdfef0fb11743"
+                "reference": "dc738383c519243b0a967f63943a848d3fd861aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/597cb647654ede35e43b137926dfdfef0fb11743",
-                "reference": "597cb647654ede35e43b137926dfdfef0fb11743",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/dc738383c519243b0a967f63943a848d3fd861aa",
+                "reference": "dc738383c519243b0a967f63943a848d3fd861aa",
                 "shasum": ""
             },
             "require": {
@@ -2321,7 +2321,7 @@
                 "phar-io/version": "^3.0.2",
                 "php": ">=7.3",
                 "phpspec/prophecy": "^1.12.1",
-                "phpunit/php-code-coverage": "^9.2.7",
+                "phpunit/php-code-coverage": "^9.2.12",
                 "phpunit/php-file-iterator": "^3.0.5",
                 "phpunit/php-invoker": "^3.1.1",
                 "phpunit/php-text-template": "^2.0.3",
@@ -2383,7 +2383,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.13"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.15"
             },
             "funding": [
                 {
@@ -2395,7 +2395,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-24T07:33:35+00:00"
+            "time": "2022-02-23T08:53:20+00:00"
         },
         {
             "name": "phug/js-transformer-filter",
@@ -2575,16 +2575,16 @@
         },
         {
             "name": "pug-php/pug",
-            "version": "3.4.1",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pug-php/pug.git",
-                "reference": "4f5bb7406dddc482966c607fca00e287347abec8"
+                "reference": "dbf1f2eda24e472cdcd74bfce2466fdb37fee2cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pug-php/pug/zipball/4f5bb7406dddc482966c607fca00e287347abec8",
-                "reference": "4f5bb7406dddc482966c607fca00e287347abec8",
+                "url": "https://api.github.com/repos/pug-php/pug/zipball/dbf1f2eda24e472cdcd74bfce2466fdb37fee2cd",
+                "reference": "dbf1f2eda24e472cdcd74bfce2466fdb37fee2cd",
                 "shasum": ""
             },
             "require": {
@@ -2628,7 +2628,6 @@
             "authors": [
                 {
                     "name": "kylekatarnls",
-                    "email": "pug@selfbuild.fr",
                     "homepage": "http://github.com/kylekatarnls",
                     "role": "Developer"
                 },
@@ -2663,7 +2662,7 @@
             ],
             "support": {
                 "issues": "https://github.com/pug-php/pug/issues",
-                "source": "https://github.com/pug-php/pug/tree/master"
+                "source": "https://github.com/pug-php/pug/tree/3.5.0"
             },
             "funding": [
                 {
@@ -2679,7 +2678,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-28T21:50:47+00:00"
+            "time": "2021-11-11T23:17:20+00:00"
         },
         {
             "name": "sebastian/cli-parser",

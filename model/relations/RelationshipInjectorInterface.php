@@ -7,8 +7,9 @@ use spitfire\model\Query;
  * A relationship describes how two models connect with each other. This is useful
  * for navigating models and building queries.
  */
-interface RelationshipInterface
+interface RelationshipInjectorInterface
 {
 	
-	public function injector(): RelationshipInjectorInterface;
+	public function injectWhere(Query $query, Model $model) : void;
+	public function injectWhereHas(Query $query, callable $value) : void;
 }

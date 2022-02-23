@@ -15,7 +15,7 @@ use spitfire\storage\database\Table;
 /**
  * This class allows to track changes on database data along the use of a program
  * and creates interactions with the database in a safe way.
- * 
+ *
  * @todo Make this class implement Iterator
  * @author César de la Cal <cesar@magic3w.com>
  */
@@ -24,18 +24,18 @@ abstract class Model implements Serializable, JsonSerializable
 	
 	/**
 	 * The actual data that the record contains. The record is basically a wrapper
-	 * around the array that allows to validate data on the go and to alert the 
+	 * around the array that allows to validate data on the go and to alert the
 	 * programmer about inconsistent types.
-	 * 
+	 *
 	 * @var mixed[]
 	 */
 	private $data;
 	
 	/**
 	 * Keeps information about the table that owns the record this Model represents.
-	 * This allows it to power functions like store that require knowledge about 
+	 * This allows it to power functions like store that require knowledge about
 	 * the database keeping the information.
-	 * 
+	 *
 	 * @var Table
 	 */
 	private $table;
@@ -45,11 +45,11 @@ abstract class Model implements Serializable, JsonSerializable
 	
 	/**
 	 * Creates a new record.
-	 * 
+	 *
 	 * @param Table $table DB Table this record belongs to. Easiest way
 	 *                       to get this is by using $this->model->*tablename*
-	 * 
-	 * @param mixed $data  Attention! This parameter is intended to be 
+	 *
+	 * @param mixed $data  Attention! This parameter is intended to be
 	 *                       used by the system. To create a new record, leave
 	 *                       empty and use setData.
 	 */
@@ -65,7 +65,7 @@ abstract class Model implements Serializable, JsonSerializable
 	 * Returns the data this record currently contains as associative array.
 	 * Remember that this data COULD be invalid when using setData to provide
 	 * it.
-	 * 
+	 *
 	 * @return mixed
 	 */
 	public function getData()
@@ -77,7 +77,7 @@ abstract class Model implements Serializable, JsonSerializable
 	 * This method stores the data of this record to the database. In case
 	 * of database error it throws an Exception and leaves the state of the
 	 * record unchanged.
-	 * 
+	 *
 	 * @throws PrivateException
 	 */
 	public function store()
@@ -85,7 +85,7 @@ abstract class Model implements Serializable, JsonSerializable
 		$this->onbeforesave();
 		
 		#Decide whether to insert or update depending on the Model
-		if ($this->new) { 
+		if ($this->new) {
 			#Get the autoincrement field
 			$id = $this->table->getCollection()->insert($this);
 			$ai = $this->table->getAutoIncrement();
@@ -96,7 +96,7 @@ abstract class Model implements Serializable, JsonSerializable
 				$this->data[$ai->getName()]->dbSetData(array($ai->getName() => $id));
 			}
 		}
-		else { 
+		else {
 			$this->table->getCollection()->update($this);
 		}
 		
@@ -108,13 +108,13 @@ abstract class Model implements Serializable, JsonSerializable
 	}
 	
 	/**
-	 * 
+	 *
 	 * @deprecated since version 0.1-dev 20190611
 	 */
 	public function write()
 	{
 		#Decide whether to insert or update depending on the Model
-		if ($this->new) { 
+		if ($this->new) {
 			#Get the autoincrement field
 			$id = $this->table->getCollection()->insert($this);
 			$ai = $this->table->getAutoIncrement();
@@ -125,7 +125,7 @@ abstract class Model implements Serializable, JsonSerializable
 				$this->data[$ai->getName()]->dbSetData(array($ai->getName() => $id));
 			}
 		}
-		else { 
+		else {
 			$this->table->getCollection()->update($this);
 		}
 		
@@ -139,7 +139,7 @@ abstract class Model implements Serializable, JsonSerializable
 	/**
 	 * Returns the values of the fields included in this records primary
 	 * fields
-	 * 
+	 *
 	 * @todo Find better function name
 	 * @return array
 	 */
@@ -158,7 +158,7 @@ abstract class Model implements Serializable, JsonSerializable
 	public function query()
 	{
 		return new Query(new Driver(
-			Settings::fromArray(['schema' => 'sftest', 'port' => 3306, 'password' => 'root']), 
+			Settings::fromArray(['schema' => 'sftest', 'port' => 3306, 'password' => 'root']),
 			new Logger('test', [])
 		), $this);
 	}
@@ -187,7 +187,7 @@ abstract class Model implements Serializable, JsonSerializable
 	
 	/**
 	 * Returns the table this record belongs to.
-	 * 
+	 *
 	 * @return Layout
 	 */
 	public function getTable() : Layout
@@ -263,7 +263,7 @@ abstract class Model implements Serializable, JsonSerializable
 	 * Increments a value on high read/write environments. Using update can
 	 * cause data to be corrupted. Increment requires the data to be in sync
 	 * aka. stored to database.
-	 * 
+	 *
 	 * @param String $key
 	 * @param int|float $diff
 	 * @throws PrivateException
@@ -277,7 +277,7 @@ abstract class Model implements Serializable, JsonSerializable
 	{
 		#If there is no table defined there is no need to create adapters
 		if ($this->table === null) {
-			return; 
+			return;
 		}
 		
 		$fields = $this->getTable()->getModel()->getFields();
@@ -290,7 +290,7 @@ abstract class Model implements Serializable, JsonSerializable
 	{
 		#If the set carries no data, why bother reading?
 		if (empty($data)) {
-			return; 
+			return;
 		}
 		
 		#Retrieves the full list of fields this adapter needs to populate
@@ -312,7 +312,7 @@ abstract class Model implements Serializable, JsonSerializable
 	}
 	
 	/**
-	 * 
+	 *
 	 * @deprecated since version 0.1-dev 20190611
 	 * @return Collection
 	 */
@@ -337,14 +337,14 @@ abstract class Model implements Serializable, JsonSerializable
 	/**
 	 * The jsonserialize endpoint allows applications to json_encode this model without
 	 * having to loop over all the keys.
-	 * 
+	 *
 	 * If your application wishes to not expose certain data to the outside world, feel
 	 * free to implement jsonSerialize in your model and unset the keys you do not wish
 	 * to broadcast.
-	 * 
+	 *
 	 * This method is intended to aid passing data to views and rendering output, the data
 	 * exported here cannot be imported back into spitfire.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function jsonSerialize()
@@ -360,7 +360,7 @@ abstract class Model implements Serializable, JsonSerializable
 	
 	/**
 	 * Allows the model to perform small tasks before it is written to the database.
-	 * 
+	 *
 	 * @return void This method does not return
 	 */
 	public function onbeforesave()

@@ -1,5 +1,6 @@
 <?php namespace tests\spitfire\model;
 
+use Monolog\Handler\TestHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 use spitfire\model\Field;
@@ -7,6 +8,7 @@ use spitfire\model\Model;
 use spitfire\model\Query;
 use spitfire\model\relations\BelongsTo;
 use spitfire\storage\database\drivers\mysqlpdo\Driver;
+use spitfire\storage\database\drivers\mysqlpdo\NoopDriver;
 use spitfire\storage\database\ForeignKey;
 use spitfire\storage\database\Layout;
 use spitfire\storage\database\Settings;
@@ -33,8 +35,8 @@ class QueryTest extends TestCase
 		$this->layout2->putField('unrelated', 'string:255', false, false);
 		$this->layout2->primary($this->layout->getField('_id'));
 		$this->layout2->putIndex(new ForeignKey(
-			'testforeign', 
-			$this->layout2->getField('test_id'), 
+			'testforeign',
+			$this->layout2->getField('test_id'),
 			$this->layout->getTableReference()->getOutput('_id')
 		));
 		
@@ -54,7 +56,8 @@ class QueryTest extends TestCase
 				parent::__construct($layout);
 			}
 			
-			public function test() {
+			public function test()
+			{
 				return new BelongsTo(new Field($this, 'test_id'), new Field($this->parent, '_id'));
 			}
 		};
@@ -63,10 +66,10 @@ class QueryTest extends TestCase
 	public function testBelongsToWhere()
 	{
 		$query = new Query(
-			new Driver(
-				Settings::fromArray(['schema' => 'sftest', 'port' => 3306, 'password' => 'root']), 
+			new NoopDriver(
+				Settings::fromArray(['schema' => 'sftest', 'port' => 3306, 'password' => 'root']),
 				new Logger('test', [])
-			), 
+			),
 			$this->model2
 		);
 		
@@ -78,11 +81,12 @@ class QueryTest extends TestCase
 	
 	public function testBelongsToWhereHas()
 	{
+		$handler = new TestHandler();
 		$query = new Query(
-			new Driver(
-				Settings::fromArray(['schema' => 'sftest', 'port' => 3306, 'password' => 'root']), 
-				new Logger('test', [])
-			), 
+			new NoopDriver(
+				Settings::fromArray(['schema' => 'sftest', 'port' => 3306, 'password' => 'root']),
+				new Logger('test', [$handler])
+			),
 			$this->model2
 		);
 		
@@ -91,5 +95,9 @@ class QueryTest extends TestCase
 		});
 		
 		$query->all();
+		
+		$this->assertCount(1, $handler->getRecords());
+		$this->assertStringContainsString('`_id` FROM `test`', $handler->getRecords()[0]['message']);
+		$this->assertStringContainsString("`.`my_stick` = 'is better than bacon' AND", $handler->getRecords()[0]['message']);
 	}
 }
