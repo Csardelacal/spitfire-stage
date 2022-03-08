@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use spitfire\model\Field;
 use spitfire\model\Model;
 use spitfire\model\Query;
+use spitfire\model\QueryBuilder;
 use spitfire\model\relations\BelongsTo;
 use spitfire\storage\database\drivers\mysqlpdo\Driver;
 use spitfire\storage\database\drivers\mysqlpdo\NoopDriver;
@@ -65,7 +66,7 @@ class QueryTest extends TestCase
 	
 	public function testBelongsToWhere()
 	{
-		$query = new Query(
+		$query = new QueryBuilder(
 			new NoopDriver(
 				Settings::fromArray(['schema' => 'sftest', 'port' => 3306, 'password' => 'root']),
 				new Logger('test', [])
@@ -82,7 +83,7 @@ class QueryTest extends TestCase
 	public function testBelongsToWhereHas()
 	{
 		$handler = new TestHandler();
-		$query = new Query(
+		$query = new QueryBuilder(
 			new NoopDriver(
 				Settings::fromArray(['schema' => 'sftest', 'port' => 3306, 'password' => 'root']),
 				new Logger('test', [$handler])
@@ -90,7 +91,7 @@ class QueryTest extends TestCase
 			$this->model2
 		);
 		
-		$query->whereHas('test', function (Query $query) {
+		$query->whereHas('test', function (QueryBuilder $query) {
 			$query->where('my_stick', 'is better than bacon');
 		});
 		

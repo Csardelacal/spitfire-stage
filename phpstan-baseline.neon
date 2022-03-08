@@ -521,36 +521,6 @@ parameters:
 			path: model/Index.php
 
 		-
-			message: "#^Call to method getAutoIncrement\\(\\) on an unknown class spitfire\\\\storage\\\\database\\\\Table\\.$#"
-			count: 2
-			path: model/Model.php
-
-		-
-			message: "#^Call to method getCollection\\(\\) on an unknown class spitfire\\\\storage\\\\database\\\\Table\\.$#"
-			count: 5
-			path: model/Model.php
-
-		-
-			message: "#^Call to method getDb\\(\\) on an unknown class spitfire\\\\storage\\\\database\\\\Table\\.$#"
-			count: 1
-			path: model/Model.php
-
-		-
-			message: "#^Call to method getModel\\(\\) on an unknown class spitfire\\\\storage\\\\database\\\\Table\\.$#"
-			count: 5
-			path: model/Model.php
-
-		-
-			message: "#^Call to method getPrimaryKey\\(\\) on an unknown class spitfire\\\\storage\\\\database\\\\Table\\.$#"
-			count: 1
-			path: model/Model.php
-
-		-
-			message: "#^Call to method increment\\(\\) on an unknown class spitfire\\\\storage\\\\database\\\\Table\\.$#"
-			count: 1
-			path: model/Model.php
-
-		-
 			message: "#^Call to method table\\(\\) on an unknown class spitfire\\\\storage\\\\database\\\\DB\\.$#"
 			count: 1
 			path: model/Model.php
@@ -558,11 +528,6 @@ parameters:
 		-
 			message: "#^Instantiated class spitfire\\\\exceptions\\\\PrivateException not found\\.$#"
 			count: 2
-			path: model/Model.php
-
-		-
-			message: "#^Method spitfire\\\\model\\\\Model\\:\\:getTable\\(\\) has invalid return type spitfire\\\\storage\\\\database\\\\Table\\.$#"
-			count: 1
 			path: model/Model.php
 
 		-
@@ -657,11 +622,6 @@ parameters:
 
 		-
 			message: "#^Method spitfire\\\\model\\\\adapters\\\\BaseAdapter\\:\\:validate\\(\\) has invalid return type spitfire\\\\validation\\\\ValidationResult\\.$#"
-			count: 1
-			path: model/adapters/BaseAdapter.php
-
-		-
-			message: "#^Method spitfire\\\\model\\\\adapters\\\\BaseAdapter\\:\\:validate\\(\\) should return spitfire\\\\validation\\\\ValidationResult but returns bool\\|spitfire\\\\validation\\\\ValidationError\\.$#"
 			count: 1
 			path: model/adapters/BaseAdapter.php
 
@@ -1331,23 +1291,8 @@ parameters:
 			path: model/fields/StringField.php
 
 		-
-			message: "#^Method spitfire\\\\model\\\\fields\\\\StringField\\:\\:validate\\(\\) has invalid return type spitfire\\\\validation\\\\ValidationError\\.$#"
-			count: 1
-			path: model/fields/StringField.php
-
-		-
-			message: "#^Parameter \\#1 \\$string of function strlen expects string, spitfire\\\\model\\\\type given\\.$#"
-			count: 1
-			path: model/fields/StringField.php
-
-		-
 			message: "#^Parameter \\$model of method spitfire\\\\model\\\\fields\\\\StringField\\:\\:getAdapter\\(\\) has invalid type spitfire\\\\Model\\.$#"
 			count: 2
-			path: model/fields/StringField.php
-
-		-
-			message: "#^Parameter \\$value of method spitfire\\\\model\\\\fields\\\\StringField\\:\\:validate\\(\\) has invalid type spitfire\\\\model\\\\type\\.$#"
-			count: 1
 			path: model/fields/StringField.php
 
 		-
@@ -1381,11 +1326,6 @@ parameters:
 			path: model/fields/float.php
 
 		-
-			message: "#^Call to function is_numeric\\(\\) with spitfire\\\\model\\\\type will always evaluate to false\\.$#"
-			count: 1
-			path: model/fields/float.php
-
-		-
 			message: "#^Function _t not found\\.$#"
 			count: 1
 			path: model/fields/float.php
@@ -1396,84 +1336,9 @@ parameters:
 			path: model/fields/float.php
 
 		-
-			message: "#^Method FloatField\\:\\:validate\\(\\) has invalid return type spitfire\\\\validation\\\\ValidationError\\.$#"
-			count: 1
-			path: model/fields/float.php
-
-		-
 			message: "#^Parameter \\$model of method FloatField\\:\\:getAdapter\\(\\) has invalid type spitfire\\\\Model\\.$#"
 			count: 2
 			path: model/fields/float.php
-
-		-
-			message: "#^Parameter \\$value of method FloatField\\:\\:validate\\(\\) has invalid type spitfire\\\\model\\\\type\\.$#"
-			count: 1
-			path: model/fields/float.php
-
-		-
-			message: "#^Access to constant TYPE_AND on an unknown class spitfire\\\\storage\\\\database\\\\RestrictionGroup\\.$#"
-			count: 2
-			path: model/fields/manytomany.php
-
-		-
-			message: "#^Access to constant TYPE_OR on an unknown class spitfire\\\\storage\\\\database\\\\RestrictionGroup\\.$#"
-			count: 2
-			path: model/fields/manytomany.php
-
-		-
-			message: "#^Call to an undefined method spitfire\\\\model\\\\Field\\:\\:getTarget\\(\\)\\.$#"
-			count: 1
-			path: model/fields/manytomany.php
-
-		-
-			message: "#^Call to an undefined method spitfire\\\\storage\\\\database\\\\Field\\:\\:getReferencedField\\(\\)\\.$#"
-			count: 6
-			path: model/fields/manytomany.php
-
-		-
-			message: "#^Call to an undefined method spitfire\\\\storage\\\\database\\\\Query\\:\\:getQueryTable\\(\\)\\.$#"
-			count: 3
-			path: model/fields/manytomany.php
-
-		-
-			message: "#^Call to method getAll\\(\\) on an unknown class spitfire\\\\storage\\\\database\\\\Table\\.$#"
-			count: 2
-			path: model/fields/manytomany.php
-
-		-
-			message: "#^Call to method getDb\\(\\) on an unknown class spitfire\\\\storage\\\\database\\\\Table\\.$#"
-			count: 3
-			path: model/fields/manytomany.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 2
-			path: model/fields/manytomany.php
-
-		-
-			message: "#^Method ManyToManyField\\:\\:getModelField\\(\\) should return spitfire\\\\storage\\\\database\\\\Field but returns spitfire\\\\model\\\\Field\\|null\\.$#"
-			count: 1
-			path: model/fields/manytomany.php
-
-		-
-			message: "#^Parameter \\#2 \\$role of method spitfire\\\\model\\\\fields\\\\ChildrenField\\:\\:__construct\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: model/fields/manytomany.php
-
-		-
-			message: "#^Parameter \\$model of method ManyToManyField\\:\\:getAdapter\\(\\) has invalid type spitfire\\\\Model\\.$#"
-			count: 2
-			path: model/fields/manytomany.php
-
-		-
-			message: "#^Property ManyToManyField\\:\\:\\$meta is never written, only read\\.$#"
-			count: 1
-			path: model/fields/manytomany.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 2
-			path: model/fields/manytomany.php
 
 		-
 			message: "#^Call to method table\\(\\) on an unknown class spitfire\\\\storage\\\\database\\\\DB\\.$#"

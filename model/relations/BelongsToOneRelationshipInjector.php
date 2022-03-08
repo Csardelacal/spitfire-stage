@@ -2,10 +2,10 @@
 
 use spitfire\model\Field;
 use spitfire\model\Model;
-use spitfire\model\Query;
 use spitfire\storage\database\Query as DatabaseQuery;
+use spitfire\storage\database\query\RestrictionGroup;
 
-class DirectRelationshipInjector implements RelationshipInjectorInterface
+class BelongsToOneRelationshipInjector implements RelationshipInjectorInterface
 {
 	
 	private $field;
@@ -25,13 +25,13 @@ class DirectRelationshipInjector implements RelationshipInjectorInterface
 	 * have to do is look for those where the referencing field matches the
 	 * id of the parent model.
 	 *
-	 * @param Query $query
+	 * @param RestrictionGroup $query
 	 * @param Model $model
 	 * @return void
 	 */
-	public function injectWhere(Query $query, Model $model) : void
+	public function injectWhere(RestrictionGroup $query, Model $model) : void
 	{
-		$query->where($this->field->getField(), $model->getPrimaryData());
+		$query->where($this->field->getField(), $model->getPrimaryData()[$this->field->getField()->getName()]);
 	}
 	
 	/**
@@ -41,13 +41,13 @@ class DirectRelationshipInjector implements RelationshipInjectorInterface
 	 *
 	 * PostModel::query()->whereHas('user', function (Query $query) { $query->where('verified', true); });
 	 *
-	 * @param Query $query
-	 * @param callable(Query):void $fn
+	 * @param RestrictionGroup $query
+	 * @param callable(RestrictionGroup):void $fn
 	 * @return void
 	 */
-	public function injectWhereHas(Query $query, callable $fn) : void
+	public function injectWhereHas(RestrictionGroup $query, callable $fn) : void
 	{
-		$query->getQuery()->whereExists(function (DatabaseQuery $parent) use ($fn) : DatabaseQuery {
+		$query->whereExists(function (DatabaseQuery $parent) use ($fn) : DatabaseQuery {
 			/**
 			 * The subquery is just a regular query being performed on the remote model (the
 			 * one being referenced).
@@ -67,12 +67,12 @@ class DirectRelationshipInjector implements RelationshipInjectorInterface
 			$primary = $this->referenced->getField();
 			
 			$query->where(
-				$query->getFrom()->output()->getOutput($this->referenced->getField()),
-				$parent->getFrom()->output()->getOutput($primary)
+				$parent->getFrom()->output()->getOutput($this->field->getField()),
+				$query->getFrom()->output()->getOutput($primary)
 			);
 			
 			/**
-			 * 
+			 *
 			 */
 			$query->select($this->referenced->getField());
 			
