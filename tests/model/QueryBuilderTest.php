@@ -3,23 +3,34 @@
 use Monolog\Handler\TestHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
+use spitfire\model\ConnectionManager;
 use spitfire\model\Field;
 use spitfire\model\Model;
-use spitfire\model\Query;
 use spitfire\model\QueryBuilder;
-use spitfire\model\relations\BelongsTo;
-use spitfire\storage\database\drivers\mysqlpdo\Driver;
+use spitfire\model\relations\BelongsToOne;
+use spitfire\storage\database\Connection;
 use spitfire\storage\database\drivers\mysqlpdo\NoopDriver;
 use spitfire\storage\database\ForeignKey;
 use spitfire\storage\database\Layout;
+use spitfire\storage\database\Record;
+use spitfire\storage\database\Schema;
 use spitfire\storage\database\Settings;
 
-class QueryTest extends TestCase
+class QueryBuilderTest extends TestCase
 {
 	
 	private $layout;
 	private $layout2;
 	
+	/**
+	 * @var TestHandler
+	 */
+	private $logger;
+	
+	/**
+	 * 
+	 * @var Model
+	 */
 	private $model;
 	private $model2;
 	
@@ -43,53 +54,69 @@ class QueryTest extends TestCase
 		
 		
 		$this->model = new class ($this->layout) extends Model {
-			
+			public function getTableName()
+			{
+				return 'test';
+			}
 		};
 		
-		$this->model2 = new class ($this->layout2, $this->model) extends Model {
-			private $layout;
+		$this->model2 = new class ($this->model) extends Model {
 			private $parent;
 			
-			public function __construct($layout, $parent)
+			public function __construct($parent)
 			{
-				$this->layout = $layout;
 				$this->parent = $parent;
-				parent::__construct($layout);
 			}
 			
 			public function test()
 			{
-				return new BelongsTo(new Field($this, 'test_id'), new Field($this->parent, '_id'));
+				return new BelongsToOne(new Field($this, 'test_id'), new Field($this->parent, '_id'));
+			}
+			
+			public function getTableName()
+			{
+				return 'test2';
 			}
 		};
+		
+		$schema = new Schema('test');
+		$schema->putLayout($this->layout);
+		$schema->putLayout($this->layout2);
+		
+		$id = rand();
+		
+		$connection = new Connection(
+			$schema,
+			new NoopDriver(
+				Settings::fromArray(['schema' => 'sftest', 'port' => 3306, 'password' => 'root']),
+				new Logger('test', [$this->logger = new TestHandler()])
+			)
+		);
+		
+		$manager = spitfire()->provider()->get(ConnectionManager::class);
+		$manager->put($id, $connection);
+		
+		spitfire()->provider()->set(ConnectionManager::class, $manager);
+		
+		$this->model->setConnection($id);
+		$this->model2->setConnection($id);
 	}
 	
 	public function testBelongsToWhere()
 	{
-		$query = new QueryBuilder(
-			new NoopDriver(
-				Settings::fromArray(['schema' => 'sftest', 'port' => 3306, 'password' => 'root']),
-				new Logger('test', [])
-			),
-			$this->model2
-		);
+		$query = new QueryBuilder($this->model2);
+		$model = $this->model->withHydrate(new Record(['_id' => 1, 'my_stick' => null]));
 		
-		$query->where('test', new class ($this->layout, ['_id' => 1]) extends Model {
-			
-		});
+		$query->where('test', $model);
 		$query->all();
+		
+		$this->assertStringContainsString("`test_id` = '1'", $this->logger->getRecords()[0]['message']);
 	}
 	
 	public function testBelongsToWhereHas()
 	{
 		$handler = new TestHandler();
-		$query = new QueryBuilder(
-			new NoopDriver(
-				Settings::fromArray(['schema' => 'sftest', 'port' => 3306, 'password' => 'root']),
-				new Logger('test', [$handler])
-			),
-			$this->model2
-		);
+		$query = new QueryBuilder($this->model2);
 		
 		$query->whereHas('test', function (QueryBuilder $query) {
 			$query->where('my_stick', 'is better than bacon');

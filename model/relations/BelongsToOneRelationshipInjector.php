@@ -29,9 +29,10 @@ class BelongsToOneRelationshipInjector implements RelationshipInjectorInterface
 	 * @param Model $model
 	 * @return void
 	 */
-	public function injectWhere(RestrictionGroup $query, Model $model) : void
+	public function injectWhere(DatabaseQuery $context, RestrictionGroup $query, Model $model) : void
 	{
-		$query->where($this->field->getField(), $model->getPrimaryData()[$this->field->getField()->getName()]);
+		$name = $this->field->getField();
+		$query->where($context->getFrom()->output()->getOutput($name), $model->getPrimary());
 	}
 	
 	/**

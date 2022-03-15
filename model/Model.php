@@ -7,6 +7,7 @@ use Serializable;
 use spitfire\collection\Collection;
 use spitfire\exceptions\ApplicationException;
 use spitfire\exceptions\PrivateException;
+use spitfire\storage\database\Connection;
 use spitfire\storage\database\DriverInterface as DatabaseDriverInterface;
 use spitfire\storage\database\events\RecordBeforeInsertEvent;
 use spitfire\storage\database\events\RecordBeforeUpdateEvent;
@@ -22,7 +23,7 @@ use spitfire\utils\Strings;
  * @todo Make this class implement Iterator
  * @author César de la Cal <cesar@magic3w.com>
  */
-abstract class Model implements Serializable, JsonSerializable
+abstract class Model implements JsonSerializable
 {
 	
 	/**
@@ -180,7 +181,7 @@ abstract class Model implements Serializable, JsonSerializable
 	{
 		assert($this->hydrated);
 		
-		$fields = $this->layout->getPrimaryKey()->getFields();
+		$fields = $this->getTable()->getPrimaryKey()->getFields();
 		
 		if ($fields->isEmpty()) {
 			throw new ApplicationException('Record has no primary key', 2101181306); 
@@ -353,10 +354,16 @@ abstract class Model implements Serializable, JsonSerializable
 	/**
 	 * @todo This should return a database connection
 	 */
-	public function getConnection() : DatabaseDriverInterface
+	public function getConnection() : Connection
 	{
 		return $this->connection !== null?
 			spitfire()->provider()->get(ConnectionManager::class)->get($this->connection) :
 			spitfire()->provider()->get(ConnectionManager::class)->getDefault();
+	}
+	
+	public function setConnection(string $id) : Model
+	{
+		$this->connection = $id;
+		return $this;
 	}
 }

@@ -40,9 +40,9 @@ class QueryBuilder
 	 */
 	private $query;
 	
-	public function __construct(DriverInterface $db, Model $model)
+	public function __construct(Model $model)
 	{
-		$this->db = $db;
+		$this->db = $model->getConnection();
 		$this->model = $model;
 		
 		$this->query = new DatabaseQuery($this->model->getTable()->getTableReference());
@@ -119,8 +119,8 @@ class QueryBuilder
 	
 	public function all() : Collection
 	{
-		$result = $this->db->query($this->withDefaultMapping()->getQuery())->fetchAll();
-		
+		$result = $this->model->getConnection()->getDriver()->query($this->withDefaultMapping()->getQuery())->fetchAll();
+		return new Collection();
 	}
 	
 	public function range(int $offset, int $size) : Collection
@@ -137,7 +137,7 @@ class QueryBuilder
 			'c'
 		);
 		
-		$res = $this->db->query($query)->fetch();
+		$res = $this->model->getConnection()->getDriver()->query($query)->fetch();
 		return $res['c'];
 	}
 }
